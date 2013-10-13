@@ -19,7 +19,7 @@ public class CameraManger : MonoBehaviour
 		cam4.enabled = false;
 		cam5.enabled = false;
 		
-		StartCoroutine (WaitAndCycle (2));
+		StartCoroutine (WaitAndCycle (5));
 	}
 	
 	// Update is called once per frame
