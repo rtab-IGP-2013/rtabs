@@ -4,6 +4,10 @@ using System.Collections;
 public class PlayerMovementController : MonoBehaviour {
 	public static int speed = 1;
 	float movement = 0.1f * speed;
+	int jumps_left;
+	int max_jumps = 1;
+	float jumpspeed = 6f;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -30,5 +34,21 @@ public class PlayerMovementController : MonoBehaviour {
 			rigidbody.position = new Vector3 (transform.position.x + movement, transform.position.y, transform.position.z);
 		}
 		
+//		Jumping
+		
+		if (Input.GetButtonDown("Jump"))	{
+			if(jumps_left > 0)	{
+				rigidbody.velocity = new Vector3 (0f, jumpspeed, 0f);
+				jumps_left--;
+				}
+		}
+		
+	}
+
+//		When to allow the player to jump again
+	void OnCollisionEnter(Collision target)	{	
+		if(target.gameObject.tag == "floor")	{
+			jumps_left = max_jumps;
+		}
 	}
 }
