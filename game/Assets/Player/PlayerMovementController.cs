@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class PlayerMovementController : MonoBehaviour {
-	public static int speed = 1;
-	float movement = 0.1f * speed;
+	public static int speed = 25;
+	public static int maxspeed = 5;
 	int jumps_left;
 	int max_jumps = 1;
 	float jumpspeed = 6f;
@@ -20,18 +20,21 @@ public class PlayerMovementController : MonoBehaviour {
 		
 //		transform.position = new Vector3(transform.position.x + player_x, transform.position.y + player_y, 0);
 	
-		if (Input.GetKey (KeyCode.LeftArrow)){
-			rigidbody.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z + movement);	
-		
+		if (Input.GetAxis ("Horizontal") < 0){
+			if(rigidbody.velocity.magnitude < maxspeed)
+				rigidbody.AddForce (new Vector3(0, 0, speed));
 		}
-		else if (Input.GetKey (KeyCode.RightArrow)){
-			rigidbody.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z - movement);
+		if (Input.GetAxis ("Horizontal") > 0){
+			if(rigidbody.velocity.magnitude < maxspeed)
+				rigidbody.AddForce (new Vector3(0, 0, (-1) * speed));
 		}
-		else if (Input.GetKey (KeyCode.DownArrow)){
-			rigidbody.position = new Vector3 (transform.position.x - movement, transform.position.y, transform.position.z);
+		if (Input.GetAxis ("Vertical") < 0 ){
+			if(rigidbody.velocity.magnitude < maxspeed)
+				rigidbody.AddForce (new Vector3((-1) * speed, 0, 0));
 		}
-		else if (Input.GetKey (KeyCode.UpArrow)){
-			rigidbody.position = new Vector3 (transform.position.x + movement, transform.position.y, transform.position.z);
+		if (Input.GetAxis ("Vertical") > 0 ){
+			if(rigidbody.velocity.magnitude < maxspeed)
+				rigidbody.AddForce (new Vector3(speed, 0, 0));
 		}
 		
 //		Jumping
