@@ -12,7 +12,7 @@ public class CameraFollowPlayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 PlayerPOS = GameObject.Find("Player").transform.transform.position;
+		Vector3 PlayerPOS = GameObject.FindGameObjectWithTag("Player").transform.transform.position;
 		transform.position = new Vector3(PlayerPOS.x, PlayerPOS.y + DistanceAway, PlayerPOS.z - DistanceAway);
 
 	}
