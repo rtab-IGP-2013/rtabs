@@ -15,6 +15,7 @@ public class Detector : MonoBehaviour
 	void Update ()
 	{
 		if (CanSeePlayer ()) {
+			Debug.LogWarning("OLI TRUE");
 			WaitAndLoadLevel(2.0f);
 		}
 	}
@@ -25,17 +26,9 @@ public class Detector : MonoBehaviour
 		Vector3 viewPos = GameObject.FindGameObjectWithTag ("activeCam").GetComponent<Camera> ().WorldToViewportPoint (player.transform.position);
 		Vector3 here = GameObject.FindGameObjectWithTag ("activeCam").transform.position;
 		Vector3 pos = GameObject.FindGameObjectWithTag ("Player").transform.position;
-		// do a Linecast:
 		RaycastHit hit; 
-		bool linecastHit = Physics.Raycast (here, pos, out hit);
-		//if (linecastHit && checkViewPos (viewPos) && hit.transform == player.transform) {
-		if (player.collider == hit.collider) Debug.Log("HMMMMMMMMMMMMM collider mätsää");
-		if (linecastHit) Debug.Log ("Hmm linecast hittaa");
-		if (checkViewPos (viewPos)) Debug.Log ("Posseee");
-		Debug.DrawLine(player.transform.position, player.transform.position + new Vector3(10,10,0));
-		Debug.DrawLine(target.transform.position, target.transform.position + new Vector3(10,10,0));
-		if (linecastHit && checkViewPos (viewPos) && hit.collider == player.collider) {
-			Debug.LogWarning(" NO VITTU KOKO AJAN TRUE SAATANA ");
+		bool linecastHit = Physics.Linecast (here, pos, out hit);
+		if (linecastHit && checkViewPos (viewPos) && hit.transform == player.transform) {
 			return true;
 		}
 		return false;
@@ -55,11 +48,11 @@ public class Detector : MonoBehaviour
 		GUI.Label (new Rect (Screen.width / 2 - 200, Screen.height / 2 - 100, 1000, 50), "Camera spotted you!", menuStyle);
 	}
 	
-	IEnumerator WaitAndLoadLevel (float wait)
+//	IEnumerator WaitAndLoadLevel (float wait)
+	void WaitAndLoadLevel (float wait)
 	{
-		Debug.LogError("NO VOI HELVETTI");
 		LoadGui ();
-		yield return new WaitForSeconds(wait);
+		//yield return new WaitForSeconds(wait);
 		Application.LoadLevel (Application.loadedLevel);
 	}
 }
