@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraFollowPlayer : MonoBehaviour {
 	int DistanceAway = 5;
-	Vector3 PlayerPOS = GameObject.Find("Player").transform.transform.position;
+	Vector3 PlayerPOS = GameObject.Find("w_box_5_w_box_5_w_box_5").transform.transform.position;
 	
 	// Use this for initialization
 	void Start () {
@@ -12,7 +12,7 @@ public class CameraFollowPlayer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 PlayerPOS = GameObject.FindGameObjectWithTag("Player").transform.transform.position;
+		Vector3 PlayerPOS = GameObject.Find("w_box_5_w_box_5_w_box_5").transform.transform.position;
 		transform.position = new Vector3(PlayerPOS.x, PlayerPOS.y + DistanceAway, PlayerPOS.z - DistanceAway);
 
 	}
