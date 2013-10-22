@@ -19,22 +19,22 @@ public class StoopidPlayerMovementController : MonoBehaviour {
 		
 //		transform.position = new Vector3(transform.position.x + player_x, transform.position.y + player_y, 0);
 	
-		if (Input.GetAxis ("Horizontal") < 0){
+		if (Input.GetAxis ("Horizontal") < 0 && WinCondition.WinOrNot == false){
 			rigidbody.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z + movement);	
 		
 		}
-		if (Input.GetAxis ("Horizontal") > 0){
+		if (Input.GetAxis ("Horizontal") > 0 && WinCondition.WinOrNot == false){
 			rigidbody.position = new Vector3 (transform.position.x, transform.position.y, transform.position.z - movement);
 		}
-		if (Input.GetAxis ("Vertical") < 0 ){
+		if (Input.GetAxis ("Vertical") < 0 && WinCondition.WinOrNot == false){
 			rigidbody.position = new Vector3 (transform.position.x - movement, transform.position.y, transform.position.z);
 		}
-		if (Input.GetAxis ("Vertical") > 0 ){
+		if (Input.GetAxis ("Vertical") > 0 && WinCondition.WinOrNot == false){
 			rigidbody.position = new Vector3 (transform.position.x + movement, transform.position.y, transform.position.z);
 		}
 		
 		// Jumping
-		if (Input.GetButtonDown("Jump"))	{
+		if (Input.GetButtonDown("Jump") && WinCondition.WinOrNot == false)	{
 			if(jumps_left > 0)	{
 				rigidbody.velocity = new Vector3 (0f, jumpspeed, 0f);
 				jumps_left--;

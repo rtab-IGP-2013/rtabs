@@ -19,12 +19,19 @@ public class CameraManger : MonoBehaviour
 		cam4.enabled = false;
 		cam5.enabled = false;
 		
-		StartCoroutine (WaitAndCycle (5));
+		StartCoroutine (WaitAndCycle (4));
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		if (WinCondition.WinOrNot == true){
+			cam1.enabled = false;
+			cam2.enabled = false;
+			cam3.enabled = false;
+			cam4.enabled = false;
+			cam5.enabled = true;
+		}
 		if (Input.GetKeyDown (KeyCode.C)) {
 			CycleCameras ();
 		}
@@ -51,10 +58,7 @@ public class CameraManger : MonoBehaviour
 			cam4.enabled = true;
 		} else if (cam4.enabled) {
 			cam4.enabled = false;	
-			cam5.enabled = true;
-		} else if (cam5.enabled) {
-			cam5.enabled = false;	
 			cam1.enabled = true;
-		}
+		} 
 	}
 }
