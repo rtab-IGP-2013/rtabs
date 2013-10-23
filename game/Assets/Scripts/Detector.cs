@@ -6,16 +6,16 @@ public class Detector : MonoBehaviour
 
 	public GUIStyle menuStyle;
 	public Transform target; //checks if the player is visible and nothing is blocking the view
+	Camera activecam;
 	
 	void Start ()
 	{
-		
 	}
 	
 	void Update ()
 	{
 		if (CanSeePlayer ()) {
-			Debug.LogWarning("OLI TRUE");
+			Debug.LogWarning("Detector.CanSeePlayer() OLI TRUE");
 			WaitAndLoadLevel(2.0f);
 		}
 	}
@@ -23,7 +23,7 @@ public class Detector : MonoBehaviour
 	bool CanSeePlayer ()
 	{
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");
-		Vector3 viewPos = GameObject.FindGameObjectWithTag ("activeCam").GetComponent<Camera> ().WorldToViewportPoint (player.transform.position);
+		Vector3 viewPos = CameraManger.getActiveCamera().WorldToViewportPoint(player.transform.position);					//	CameraManger can't be found -> Causes NullReferenceException
 		Vector3 here = GameObject.FindGameObjectWithTag ("activeCam").transform.position;
 		Vector3 pos = GameObject.FindGameObjectWithTag ("Player").transform.position;
 		RaycastHit hit; 

@@ -7,6 +7,8 @@ public class CameraManger : MonoBehaviour
 	
 	Camera[] cameras;
 	AudioListener listener;
+	Camera follow_cam;
+	static Camera active_cam;
 	
 	// Use this for initialization
 	void Start ()
@@ -23,6 +25,7 @@ public class CameraManger : MonoBehaviour
 		cameras[0].enabled = true;
 		listener = cameras[0].GetComponent(typeof(AudioListener)) as AudioListener;										
 		listener.enabled = true;
+		active_cam = cameras[0];
 		
 		//	Disable all other cameras and their AudioListeners
 		for(int i = 1; i < cameras.Length; i++)	{
@@ -31,8 +34,9 @@ public class CameraManger : MonoBehaviour
 			cameras[i].enabled = false;
 		}
 		
-		//	Remove "Following Camera" from the list
+		//	Assign follow_cam and remove it from the list of cycling cameras
 		//	IMPORTANT NOTE: The "Following Camera" must have the highest "Depth" value. Set it to 100 in the editor to be safe.
+		follow_cam = cameras[cameras.Length-1];
 		Array.Resize(ref cameras, (cameras.Length-1));
 		
 		StartCoroutine (WaitAndCycle (4));
@@ -41,13 +45,9 @@ public class CameraManger : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		//if (WinCondition.WinOrNot == true){
-		//	cam1.enabled = false;
-		//	cam2.enabled = false;
-		//	cam3.enabled = false;
-		//	cam4.enabled = false;
-		//	cam5.enabled = true;
-		//}
+		if (WinCondition.WinOrNot == true){
+			SwitchCameras(active_cam, follow_cam);
+		}
 		if (Input.GetKeyDown (KeyCode.C)) {
 			CycleCameras ();
 		}
@@ -87,5 +87,12 @@ public class CameraManger : MonoBehaviour
 		listener = to_camera.GetComponent(typeof(AudioListener)) as AudioListener;
 		listener.enabled = true;
 		to_camera.enabled = true;
+		
+		active_cam = to_camera;
+	}
+	
+	public static Camera getActiveCamera()
+	{
+		return active_cam;
 	}
 }
