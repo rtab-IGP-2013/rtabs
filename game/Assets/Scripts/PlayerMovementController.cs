@@ -4,9 +4,9 @@ using System.Collections;
 public class PlayerMovementController : MonoBehaviour {
 	public static int speed = 50;
 	public static int maxspeed = 5;
-	int jumps_left;
-	int max_jumps = 1;
-	float jumpspeed = 6f;
+	private int jumps_left;
+	public int max_jumps = 1;
+	public float jumpspeed = 10f;
 	
 	// Use this for initialization
 	void Start () {
@@ -41,7 +41,7 @@ public class PlayerMovementController : MonoBehaviour {
 		
 		if (Input.GetButtonDown("Jump"))	{
 			if(jumps_left > 0)	{
-				rigidbody.velocity = new Vector3 (0f, jumpspeed, 0f);
+				rigidbody.velocity = rigidbody.velocity + new Vector3 (0f, jumpspeed, 0f);
 				jumps_left--;
 				}
 		}
