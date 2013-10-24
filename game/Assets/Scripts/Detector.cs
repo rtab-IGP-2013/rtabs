@@ -6,7 +6,6 @@ public class Detector : MonoBehaviour
 
 	public GUIStyle menuStyle;
 	public Transform target; //checks if the player is visible and nothing is blocking the view
-	Camera activecam;
 	
 	void Start ()
 	{
@@ -15,25 +14,30 @@ public class Detector : MonoBehaviour
 	void Update ()
 	{
 		if (CanSeePlayer ()) {
-			Debug.LogWarning("Detector.CanSeePlayer() OLI TRUE");
-			WaitAndLoadLevel(2.0f);
+			Debug.LogWarning("PLAYER WAS SEEN");
+			// WaitAndLoadLevel(2.0f);
 		}
 	}
 	
+	//	Checks if the active camera sees the player. If the player is behind another object the player is not seen.
+	//	TODO:	Only detects if the center of the player object is visible. Needs to be changed to the whole player collider.
+	//			player.collider.bounds.Contains (hit.transform.position) doesn't seem to be doing the trick :(
 	bool CanSeePlayer ()
 	{
 		GameObject player = GameObject.FindGameObjectWithTag ("Player");
-		Vector3 viewPos = CameraManger.getActiveCamera().WorldToViewportPoint(player.transform.position);					//	CameraManger can't be found -> Causes NullReferenceException
-		Vector3 here = GameObject.FindGameObjectWithTag ("activeCam").transform.position;
-		Vector3 pos = GameObject.FindGameObjectWithTag ("Player").transform.position;
-		RaycastHit hit; 
+		Vector3 viewPos = CameraManger.getActiveCamera().WorldToViewportPoint(player.transform.position);
+		Vector3 here = CameraManger.getActiveCamera().transform.position;
+		Vector3 pos = player.transform.position;
+		RaycastHit hit;
+		
 		bool linecastHit = Physics.Linecast (here, pos, out hit);
-		if (linecastHit && checkViewPos (viewPos) && hit.transform == player.transform) {
+		if(linecastHit && checkViewPos(viewPos) && player.collider.bounds.Contains (hit.transform.position))	{
 			return true;
 		}
 		return false;
 	}
 	
+	//	Checks if player is within the given view.
 	bool checkViewPos (Vector3 viewPos)
 	{
 		if (viewPos.x > 0 && viewPos.y > 0 && viewPos.x < 1 && viewPos.y < 1 && viewPos.z > 0) {
