@@ -5,17 +5,26 @@ public class Detector : MonoBehaviour
 {
 
 	public GUIStyle menuStyle;
-	public Transform target; //checks if the player is visible and nothing is blocking the view
+	public Transform target; 		//checks if the player is visible and nothing is blocking the view
+	public Vector3 threshold;		//	How fast the player can move without being detected. Use this to compensate for movement smoothing (deceleration) if even necessary.
+	
+	GameObject player;
+	Transform playerObject;
 	
 	void Start ()
 	{
+		threshold = new Vector3(0.8f,0,0);		//	The direction of this vector does not matter, only the magnitude.
+		player = GameObject.FindGameObjectWithTag("Player");
+		playerObject = player.transform.Find("w_box_5_w_box_5_w_box_5");
 	}
 	
 	void Update ()
 	{
 		if (CanSeePlayer ()) {
-			Debug.LogWarning("PLAYER WAS SEEN");
-			// WaitAndLoadLevel(2.0f);
+			if(playerMoving ())	{
+				Debug.LogWarning("PLAYER WAS SEEN MOVING");
+				// WaitAndLoadLevel(2.0f);
+			}
 		}
 	}
 	
@@ -24,14 +33,13 @@ public class Detector : MonoBehaviour
 	//			player.collider.bounds.Contains (hit.transform.position) doesn't seem to be doing the trick :(
 	bool CanSeePlayer ()
 	{
-		GameObject player = GameObject.FindGameObjectWithTag ("Player");
 		Vector3 viewPos = CameraManger.getActiveCamera().WorldToViewportPoint(player.transform.position);
 		Vector3 here = CameraManger.getActiveCamera().transform.position;
 		Vector3 pos = player.transform.position;
 		RaycastHit hit;
 		
 		bool linecastHit = Physics.Linecast (here, pos, out hit);
-		if(linecastHit && checkViewPos(viewPos) && player.collider.bounds.Contains (hit.transform.position))	{
+		if(linecastHit && checkViewPos(viewPos) && (playerObject.collider == hit.collider))	{
 			return true;
 		}
 		return false;
@@ -45,6 +53,14 @@ public class Detector : MonoBehaviour
 		} else {
 			return false;
 		}
+	}
+	
+	bool playerMoving()
+	{	
+		if(player.rigidbody.velocity.magnitude > threshold.magnitude)
+			return true;
+		else
+			return false;
 	}
 	
 	void LoadGui ()
