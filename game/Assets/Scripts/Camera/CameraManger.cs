@@ -1,43 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;																							//	Required for array sorting
+using System.Collections.Generic;
 
 public class CameraManger : MonoBehaviour
 {	
 	
-	Camera[] cameras;
-	AudioListener listener;
-	Camera follow_cam;
-	static Camera active_cam;
+	private List<Camera> cameras = new List<Camera>();
+	private AudioListener listener;
+	private Camera followCam;
+	public static Camera activeCam;
+	private bool followOn = false;
+	private bool cycleOn = true;
 	
 	// Use this for initialization
 	void Start ()
 	{
-		cameras = FindObjectsOfType(typeof(Camera)) as Camera[];
-		Debug.Log("Found " + cameras.Length + " cameras");
+		Camera[] cameraArray = FindObjectsOfType(typeof(Camera)) as Camera[];
+		
+		for(int i = 0; i < cameraArray.Length;i++){
+			cameras.Add(cameraArray[i]);
+		}
+		
+		Debug.Log("Found " + cameras.Count + " cameras");
 		
 		//	Sort cameras into depth order starting from the lowest
-		Array.Sort(cameras, delegate(Camera cam1, Camera cam2)	{
+		cameras.Sort(delegate(Camera cam1, Camera cam2)	{
 			return cam1.depth.CompareTo(cam2.depth);
 			});
 		
 		//	Enable first camera and its AudioListener
-		cameras[0].enabled = true;
-		listener = cameras[0].GetComponent(typeof(AudioListener)) as AudioListener;										
+		activeCam = cameras[0];
+		activeCam.enabled = true;
+		listener = activeCam.GetComponent(typeof(AudioListener)) as AudioListener;										
 		listener.enabled = true;
-		active_cam = cameras[0];
 		
 		//	Disable all other cameras and their AudioListeners
-		for(int i = 1; i < cameras.Length; i++)	{
+		for(int i = 1; i < cameras.Count; i++)	{
 			listener = cameras[i].GetComponent(typeof(AudioListener)) as AudioListener;
 			listener.enabled = false;
 			cameras[i].enabled = false;
 		}
 		
 		//	Assign follow_cam and remove it from the list of cycling cameras
-		//	IMPORTANT NOTE: The "Following Camera" must have the highest "Depth" value. Set it to 100 in the editor to be safe.
-		follow_cam = cameras[cameras.Length-1];
-		Array.Resize(ref cameras, (cameras.Length-1));
+		foreach(Camera camera in cameras){
+			if(camera.tag == "followCam"){
+				followCam = camera;
+				Debug.Log("Found a follower camera");
+			}
+		}
+		cameras.Remove(followCam);
 		
 		StartCoroutine (WaitAndCycle (4));
 	}
@@ -45,28 +56,41 @@ public class CameraManger : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (WinCondition.WinOrNot == true){
-			SwitchCameras(active_cam, follow_cam);
+		if (Input.GetKeyDown (KeyCode.F)) {
+			followOn = returnOpposite(followOn);
+			if(!followOn){
+				activeCam = cameras[0];
+				SwitchCameras(followCam, activeCam);
+			}
+		}
+		if (Input.GetKeyDown (KeyCode.Y)) {
+			cycleOn = returnOpposite(cycleOn);
+		}
+		if (WinCondition.WinOrNot == true || followOn){
+			SwitchCameras(activeCam, followCam);
 		}
 		if (Input.GetKeyDown (KeyCode.C)) {
 			CycleCameras ();
 		}
+
 	}
 
 	IEnumerator WaitAndCycle (float lag)
 	{
 		while (true) {
 			yield return new WaitForSeconds(lag);
-			CycleCameras();
+			if(cycleOn){
+				CycleCameras();
+			}
 		}
 	}
 	
-	void CycleCameras ()
+	private void CycleCameras ()
 	{	
-		//	Finds active camera from cameras[] and switches to the next one.
-		for(int i = 0; i < cameras.Length; i++)	{
+		//	Finds active camera from cameras[] and switches to the next one.		
+		for(int i = 0; i < cameras.Count; i++)	{
 			if (cameras[i].enabled == true)	{
-				if(i == cameras.Length-1)	{
+				if(i == cameras.Count-1)	{
 					SwitchCameras(cameras[i], cameras[0]);
 					return;
 				}
@@ -78,21 +102,28 @@ public class CameraManger : MonoBehaviour
 		}
 	}
 	
-	void SwitchCameras (Camera from_camera, Camera to_camera)
+	private void SwitchCameras (Camera fromCamera, Camera toCamera)
 	{
-		listener = from_camera.GetComponent(typeof(AudioListener)) as AudioListener;
+		listener = fromCamera.GetComponent(typeof(AudioListener)) as AudioListener;
 		listener.enabled = false;
-		from_camera.enabled = false;
+		fromCamera.enabled = false;
 		
-		listener = to_camera.GetComponent(typeof(AudioListener)) as AudioListener;
+		listener = toCamera.GetComponent(typeof(AudioListener)) as AudioListener;
 		listener.enabled = true;
-		to_camera.enabled = true;
+		toCamera.enabled = true;
 		
-		active_cam = to_camera;
+		activeCam = toCamera;
 	}
 	
 	public static Camera getActiveCamera()
 	{
-		return active_cam;
+		return activeCam;
+	}
+	
+	private bool returnOpposite(bool boolean){
+		if(boolean){
+			return false;
+		}
+		return true;
 	}
 }
