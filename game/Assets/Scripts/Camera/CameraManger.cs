@@ -5,10 +5,12 @@ using System.Collections.Generic;
 public class CameraManger : MonoBehaviour
 {	
 	
-	List<Camera> cameras = new List<Camera>();
-	AudioListener listener;
-	Camera followCam;
-	static Camera activeCam;
+	private List<Camera> cameras = new List<Camera>();
+	private AudioListener listener;
+	private Camera followCam;
+	public static Camera activeCam;
+	private bool followOn = false;
+	private bool cycleOn = true;
 	
 	// Use this for initialization
 	void Start ()
@@ -54,23 +56,36 @@ public class CameraManger : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (WinCondition.WinOrNot == true){
+		if (Input.GetKeyDown (KeyCode.F)) {
+			followOn = returnOpposite(followOn);
+			if(!followOn){
+				activeCam = cameras[0];
+				SwitchCameras(followCam, activeCam);
+			}
+		}
+		if (Input.GetKeyDown (KeyCode.Y)) {
+			cycleOn = returnOpposite(cycleOn);
+		}
+		if (WinCondition.WinOrNot == true || followOn){
 			SwitchCameras(activeCam, followCam);
 		}
 		if (Input.GetKeyDown (KeyCode.C)) {
 			CycleCameras ();
 		}
+
 	}
 
 	IEnumerator WaitAndCycle (float lag)
 	{
 		while (true) {
 			yield return new WaitForSeconds(lag);
-			CycleCameras();
+			if(cycleOn){
+				CycleCameras();
+			}
 		}
 	}
 	
-	void CycleCameras ()
+	private void CycleCameras ()
 	{	
 		//	Finds active camera from cameras[] and switches to the next one.		
 		for(int i = 0; i < cameras.Count; i++)	{
@@ -87,7 +102,7 @@ public class CameraManger : MonoBehaviour
 		}
 	}
 	
-	void SwitchCameras (Camera fromCamera, Camera toCamera)
+	private void SwitchCameras (Camera fromCamera, Camera toCamera)
 	{
 		listener = fromCamera.GetComponent(typeof(AudioListener)) as AudioListener;
 		listener.enabled = false;
@@ -103,5 +118,12 @@ public class CameraManger : MonoBehaviour
 	public static Camera getActiveCamera()
 	{
 		return activeCam;
+	}
+	
+	private bool returnOpposite(bool boolean){
+		if(boolean){
+			return false;
+		}
+		return true;
 	}
 }
