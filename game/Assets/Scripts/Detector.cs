@@ -7,12 +7,14 @@ public class Detector : MonoBehaviour
 	public GUIStyle menuStyle;
 	public Transform target; 		//checks if the player is visible and nothing is blocking the view
 	public Vector3 threshold;		//	How fast the player can move without being detected. Use this to compensate for movement smoothing (deceleration) if even necessary.
-	
+	public Vector3 start_position;
+	public Transform start_marker;
 	GameObject player;
 	Transform playerObject;
 	
 	void Start ()
 	{
+		start_position = start_marker.position; //setting the respawn point
 		threshold = new Vector3(0.8f,0,0);		//	The direction of this vector does not matter, only the magnitude.
 		player = GameObject.FindGameObjectWithTag("Player");
 		playerObject = player.transform.Find("w_box_5_w_box_5_w_box_5");
@@ -21,8 +23,9 @@ public class Detector : MonoBehaviour
 	void Update ()
 	{
 		if (CanSeePlayer ()) {
-			if(playerMoving ())	{
+			if(playerMoving () && !WinCondition.WinOrNot)	{
 				Debug.LogWarning("PLAYER WAS SEEN MOVING");
+				player.transform.position = start_position;
 				// WaitAndLoadLevel(2.0f);
 			}
 		}
