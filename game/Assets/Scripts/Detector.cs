@@ -25,7 +25,7 @@ public class Detector : MonoBehaviour
 		if (CanSeePlayer ()) {
 			if(playerMoving () && !WinCondition.WinOrNot)	{
 				Debug.LogWarning("PLAYER WAS SEEN MOVING");
-				player.transform.position = start_position;
+				player.transform.position = start_position;  //port player to respawn point
 				// WaitAndLoadLevel(2.0f);
 			}
 		}
