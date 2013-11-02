@@ -33,7 +33,9 @@ public abstract class AbstractOverlayScript : MonoBehaviour {
 
 		guiTexture.texture = frames[index];
 		
-		if(index >= frames.Length-1)
+		if(index >= frames.Length-1)	{
 			play = false;
+			Destroy(gameObject);
+		}
 	}
 }

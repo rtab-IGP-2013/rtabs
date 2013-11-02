@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class TextOverlayScript : AbstractOverlayScript {
 
 	// Use this for initialization
-	void Start () {		
+	new void Start () {		
 		Texture2D[] frames = new Texture2D[28];
 		fps = 20;
 		width = 1025;
