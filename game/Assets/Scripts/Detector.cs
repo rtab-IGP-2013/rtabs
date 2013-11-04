@@ -5,18 +5,41 @@ public class Detector : MonoBehaviour
 {
 
 	public GUIStyle menuStyle;
-	public Transform target; //checks if the player is visible and nothing is blocking the view
+	public Transform target; 		//checks if the player is visible and nothing is blocking the view
+	public Vector3 threshold;		//	How fast the player can move without being detected. Use this to compensate for movement smoothing (deceleration) if even necessary.
+	public Vector3 start_position;
+	public Transform start_marker;
+	GameObject player;
+	private SuspicionMeter suspicionMeter;
+	Transform playerObject;
 	
 	void Start ()
 	{
+		start_position = start_marker.position; //setting the respawn point
+		threshold = new Vector3 (0.8f, 0, 0);		//	The direction of this vector does not matter, only the magnitude.
+		FindPlayer();
+		playerObject = player.transform.Find ("w_box_5_w_box_5_w_box_5");
 	}
 	
 	void Update ()
 	{
+		if (player == null) FindPlayer ();
+		
 		if (CanSeePlayer ()) {
-			Debug.LogWarning("PLAYER WAS SEEN");
-			// WaitAndLoadLevel(2.0f);
+			Debug.Log ("Seen player");
+			if (playerMoving () && !WinCondition.WinOrNot) {
+				Debug.Log ("Seen player moving");
+				this.gameObject.SendMessage("AdjustSuspicionBar",3 , SendMessageOptions.RequireReceiver);
+				//player.transform.position = start_position;  //port player to respawn BROKEN
+						
+				// WaitAndLoadLevel(2.0f);
+			}
 		}
+	}
+	
+	void FindPlayer() {
+		player = GameObject.FindGameObjectWithTag ("Player");
+		playerObject = player.transform.Find ("w_box_5_w_box_5_w_box_5");
 	}
 	
 	//	Checks if the active camera sees the player. If the player is behind another object the player is not seen.
@@ -24,14 +47,13 @@ public class Detector : MonoBehaviour
 	//			player.collider.bounds.Contains (hit.transform.position) doesn't seem to be doing the trick :(
 	bool CanSeePlayer ()
 	{
-		GameObject player = GameObject.FindGameObjectWithTag ("Player");
-		Vector3 viewPos = CameraManger.getActiveCamera().WorldToViewportPoint(player.transform.position);
-		Vector3 here = CameraManger.getActiveCamera().transform.position;
+		Vector3 viewPos = CameraManger.getActiveCamera ().WorldToViewportPoint (player.transform.position);
+		Vector3 here = CameraManger.getActiveCamera ().transform.position;
 		Vector3 pos = player.transform.position;
 		RaycastHit hit;
 		
 		bool linecastHit = Physics.Linecast (here, pos, out hit);
-		if(linecastHit && checkViewPos(viewPos) && player.collider.bounds.Contains (hit.transform.position))	{
+		if (linecastHit && checkViewPos (viewPos) && (playerObject.collider == hit.collider)) {
 			return true;
 		}
 		return false;
@@ -45,6 +67,14 @@ public class Detector : MonoBehaviour
 		} else {
 			return false;
 		}
+	}
+	
+	bool playerMoving ()
+	{	
+		if (player.rigidbody.velocity.magnitude > threshold.magnitude)
+			return true;
+		else
+			return false;
 	}
 	
 	void LoadGui ()
