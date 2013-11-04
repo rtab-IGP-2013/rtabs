@@ -15,17 +15,23 @@ public class Detector : MonoBehaviour
 	void Start ()
 	{
 		start_position = start_marker.position; //setting the respawn point
-		threshold = new Vector3(0.8f,0,0);		//	The direction of this vector does not matter, only the magnitude.
-		player = GameObject.FindGameObjectWithTag("Player");
-		playerObject = player.transform.Find("w_box_5_w_box_5_w_box_5");
+		threshold = new Vector3 (0.8f, 0, 0);		//	The direction of this vector does not matter, only the magnitude.
+		player = GameObject.FindGameObjectWithTag ("Player");
+		playerObject = player.transform.Find ("w_box_5_w_box_5_w_box_5");
+		
+		if (player.rigidbody == null) {
+			Debug.LogWarning ("Wtf missä");
+		}
 	}
 	
 	void Update ()
 	{
 		if (CanSeePlayer ()) {
-			if(playerMoving () && !WinCondition.WinOrNot)	{
-				Debug.LogWarning("PLAYER WAS SEEN MOVING");
-				player.transform.position = start_position;  //port player to respawn point
+			Debug.Log ("Seen player");
+			if (playerMoving () && !WinCondition.WinOrNot) {
+				Debug.Log ("Seen player moving");
+				//player.transform.position = start_position;  //port player to respawn BROKEN
+			
 				// WaitAndLoadLevel(2.0f);
 			}
 		}
@@ -36,13 +42,13 @@ public class Detector : MonoBehaviour
 	//			player.collider.bounds.Contains (hit.transform.position) doesn't seem to be doing the trick :(
 	bool CanSeePlayer ()
 	{
-		Vector3 viewPos = CameraManger.getActiveCamera().WorldToViewportPoint(player.transform.position);
-		Vector3 here = CameraManger.getActiveCamera().transform.position;
+		Vector3 viewPos = CameraManger.getActiveCamera ().WorldToViewportPoint (player.transform.position);
+		Vector3 here = CameraManger.getActiveCamera ().transform.position;
 		Vector3 pos = player.transform.position;
 		RaycastHit hit;
 		
 		bool linecastHit = Physics.Linecast (here, pos, out hit);
-		if(linecastHit && checkViewPos(viewPos) && (playerObject.collider == hit.collider))	{
+		if (linecastHit && checkViewPos (viewPos) && (playerObject.collider == hit.collider)) {
 			return true;
 		}
 		return false;
@@ -58,9 +64,9 @@ public class Detector : MonoBehaviour
 		}
 	}
 	
-	bool playerMoving()
+	bool playerMoving ()
 	{	
-		if(player.rigidbody.velocity.magnitude > threshold.magnitude)
+		if (player.rigidbody.velocity.magnitude > threshold.magnitude)
 			return true;
 		else
 			return false;
