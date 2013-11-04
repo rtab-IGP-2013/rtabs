@@ -17,16 +17,14 @@ public class Detector : MonoBehaviour
 	{
 		start_position = start_marker.position; //setting the respawn point
 		threshold = new Vector3 (0.8f, 0, 0);		//	The direction of this vector does not matter, only the magnitude.
-		player = GameObject.FindGameObjectWithTag ("Player");
+		FindPlayer();
 		playerObject = player.transform.Find ("w_box_5_w_box_5_w_box_5");
-		
-		if (player.rigidbody == null) {
-			Debug.LogWarning ("Wtf missä");
-		}
 	}
 	
 	void Update ()
 	{
+		if (player == null) FindPlayer ();
+		
 		if (CanSeePlayer ()) {
 			Debug.Log ("Seen player");
 			if (playerMoving () && !WinCondition.WinOrNot) {
@@ -37,6 +35,11 @@ public class Detector : MonoBehaviour
 				// WaitAndLoadLevel(2.0f);
 			}
 		}
+	}
+	
+	void FindPlayer() {
+		player = GameObject.FindGameObjectWithTag ("Player");
+		playerObject = player.transform.Find ("w_box_5_w_box_5_w_box_5");
 	}
 	
 	//	Checks if the active camera sees the player. If the player is behind another object the player is not seen.

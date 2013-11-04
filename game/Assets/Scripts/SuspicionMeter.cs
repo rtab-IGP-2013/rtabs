@@ -18,6 +18,7 @@ public class SuspicionMeter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (this.currentSuspicion == maxSuspicion) {
+			currentSuspicion = 0;
 			this.gameObject.SendMessage ("KillPlayer", SendMessageOptions.RequireReceiver);
 		}
 		

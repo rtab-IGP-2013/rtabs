@@ -12,10 +12,12 @@ public class ManagerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
 	}
 	
 	void KillPlayer() {
 		Debug.Log ("Well fuu I'm dead");
+		Destroy(GameObject.FindGameObjectWithTag("Player"));
+		Instantiate(player, startMarker.position, Quaternion.identity);
 	}
 }
