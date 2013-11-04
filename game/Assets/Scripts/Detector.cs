@@ -10,6 +10,7 @@ public class Detector : MonoBehaviour
 	public Vector3 start_position;
 	public Transform start_marker;
 	GameObject player;
+	private SuspicionMeter suspicionMeter;
 	Transform playerObject;
 	
 	void Start ()
@@ -30,8 +31,9 @@ public class Detector : MonoBehaviour
 			Debug.Log ("Seen player");
 			if (playerMoving () && !WinCondition.WinOrNot) {
 				Debug.Log ("Seen player moving");
+				this.gameObject.SendMessage("AdjustSuspicionBar",3 , SendMessageOptions.RequireReceiver);
 				//player.transform.position = start_position;  //port player to respawn BROKEN
-			
+						
 				// WaitAndLoadLevel(2.0f);
 			}
 		}

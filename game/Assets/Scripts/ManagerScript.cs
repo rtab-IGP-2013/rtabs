@@ -14,4 +14,8 @@ public class ManagerScript : MonoBehaviour {
 	void Update () {
 	
 	}
+	
+	void KillPlayer() {
+		Debug.Log ("Well fuu I'm dead");
+	}
 }
