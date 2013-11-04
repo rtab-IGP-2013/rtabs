@@ -8,7 +8,7 @@ public class SuspicionMeter : MonoBehaviour {
 	private float suspicionBarLength;
 	private int frameCounter = 0;
 	private int decaysSuspicion = 5; // every 5 frames
-	
+	private string text = "SUSPICIOUS";
 	
 	// Use this for initialization
 	void Start () {
@@ -30,7 +30,7 @@ public class SuspicionMeter : MonoBehaviour {
 	
 	void OnGUI() {
 		
-		GUI.Box(new Rect(10, 10, suspicionBarLength, 20), currentSuspicion + "/" + maxSuspicion);	
+		GUI.Box(new Rect(10, 10, suspicionBarLength, 20), text.Substring(0, (int)Mathf.Floor(currentSuspicion/9))); // As numbers: currentSuspicion + "/" + maxSuspicion
 	}
 	
 	void AdjustSuspicionBar(int adj) {
