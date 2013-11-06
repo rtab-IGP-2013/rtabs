@@ -13,12 +13,14 @@ public class PlayerStatusController : MonoBehaviour {
 	public void Update(){
 		if (Input.GetKeyDown(KeyCode.End)){
 			explosion.transform.position = transform.position;
-			gameObject.active = false;
+			Destroy(gameObject);
 			explosion.particleSystem.Play();
 		}
 	}
-
 	
-	
-	
+	public void OnDestroy() {
+		GameObject managerObj = GameObject.FindGameObjectWithTag("Manager");
+		managerObj.SendMessage("RespawnPlayer");	
+		managerObj.SendMessage("AdjustSuspicionBar", -100, SendMessageOptions.RequireReceiver);
+	}
 }
