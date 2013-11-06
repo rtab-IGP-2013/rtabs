@@ -21,8 +21,8 @@ public class WinCondition : MonoBehaviour
 	{
 		if (transform.position.z > 40.0f) {
 			//do something
-			text = "You win the game!!!";
-			WinOrNot = true;
+			//text = "You win the game!!!";
+			//WinOrNot = true;
 
 
 		}

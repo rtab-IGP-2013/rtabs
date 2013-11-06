@@ -10,9 +10,11 @@ public class Win2 : MonoBehaviour {
 		IEnumerator OnTriggerEnter (Collider box) {
 
 		text = "You win the game!!!";
-		WinOrNot = true;
+		WinCondition.WinOrNot = true;
 		yield return new WaitForSeconds(2);
-		Application.LoadLevel ("turningCameras"); 
+		WinCondition.WinOrNot = false;
+		text = "";
+		Application.LoadLevel ("menu"); 
 
 }
 
