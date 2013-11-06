@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerStatusController : MonoBehaviour {
 
-	private GameObject explosion;
+	public GameObject explosion;
 	
 	private void Start(){
 		explosion = GameObject.FindGameObjectWithTag("explosion");
@@ -20,6 +20,7 @@ public class PlayerStatusController : MonoBehaviour {
 	
 	public void OnDestroy() {
 		GameObject managerObj = GameObject.FindGameObjectWithTag("Manager");
+		Instantiate(explosion,gameObject.transform.position, Quaternion.identity);
 		managerObj.SendMessage("RespawnPlayer");	
 		managerObj.SendMessage("AdjustSuspicionBar", -100, SendMessageOptions.RequireReceiver);
 	}

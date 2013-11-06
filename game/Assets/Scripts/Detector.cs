@@ -3,11 +3,8 @@ using System.Collections;
 
 public class Detector : MonoBehaviour
 {
-
-	public GUIStyle menuStyle;
 	public Vector3 threshold;		//	How fast the player can move without being detected. Use this to compensate for movement smoothing (deceleration) if even necessary.
-	public Transform start_marker;
-	GameObject player;
+	private GameObject player;
 	private SuspicionMeter suspicionMeter;
 	public GUIText debugGui;
 	private static float dToCorner = 0.4f;
@@ -54,7 +51,7 @@ public class Detector : MonoBehaviour
 		foreach (Vector3 v in corners) {
 			RaycastHit rch;
 			bool didhit = Physics.Linecast (here, pos + v, out rch);
-			
+			Debug.DrawRay(new Vector3(0,0,0), pos + v);
 			if (checkViewPos (viewPos) && didhit) {
 				if (rch.transform == player.transform) {
 					Debug.Log("You are seen");
