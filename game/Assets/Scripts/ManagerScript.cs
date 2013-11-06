@@ -1,23 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ManagerScript : MonoBehaviour {
+public class ManagerScript : MonoBehaviour
+{
 	public GameObject player;
 	public Transform startMarker;
 	
 	// Use this for initialization
-	void Start () {
-		Instantiate(player, startMarker.position, Quaternion.identity);
+	void Start ()
+	{
+		Instantiate (player, startMarker.position, Quaternion.identity);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		
 	}
 	
-	void KillPlayer() {
+	void KillPlayer ()
+	{
 		Debug.Log ("Well fuu I'm dead");
-		Destroy(GameObject.FindGameObjectWithTag("Player"));
-		Instantiate(player, startMarker.position, Quaternion.identity);
+		Destroy (GameObject.FindGameObjectWithTag ("Player"));
+		//Instantiate (player, startMarker.position, Quaternion.identity);
+	}
+	
+	void RespawnPlayer ()
+	{
+		Debug.Log ("Well fuu I'm dead");
+		//Destroy (GameObject.FindGameObjectWithTag ("Player"));
+		Instantiate (player, startMarker.position, Quaternion.identity);
 	}
 }
