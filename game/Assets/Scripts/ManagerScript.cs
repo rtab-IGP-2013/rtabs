@@ -5,23 +5,26 @@ public class ManagerScript : MonoBehaviour
 {
 	public GameObject explosionPrefab;
 	private GameObject explosion;
-	public GameObject player;
+	public GameObject playerPrefab;
+	private GameObject player;
 	public Transform startMarker;	
 	
 	// Use this for initialization
 	void Start ()
 	{
-		Instantiate (player, startMarker.position, Quaternion.identity);
+		Instantiate (playerPrefab, startMarker.position, Quaternion.identity);
+		player = GameObject.FindGameObjectWithTag("Player");
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
 		if (Input.GetKeyDown(KeyCode.End)){
-			explosion = (GameObject)Instantiate (explosionPrefab, transform.position, Quaternion.identity);
-			KillPlayer ();
+			player = GameObject.FindGameObjectWithTag("Player");
+			explosion = (GameObject)Instantiate (explosionPrefab, player.transform.position, new Quaternion(-1.0f, 0.0f, 0.0f, 1.0f));
 			explosion.particleSystem.Play();
 			Destroy (explosion, 2.0f);
+			KillPlayer ();
 		}
 	}
 	
@@ -30,6 +33,7 @@ public class ManagerScript : MonoBehaviour
 		Debug.Log ("Well fuu I'm dead");
 		SendMessage ("ResetSuspicionMeter", SendMessageOptions.RequireReceiver);
 		Destroy (GameObject.FindGameObjectWithTag ("Player"));
-		Instantiate (player, startMarker.position, Quaternion.identity);
+		Instantiate (playerPrefab, startMarker.position, Quaternion.identity);
+		player = GameObject.FindGameObjectWithTag("Player");
 	}
 }
