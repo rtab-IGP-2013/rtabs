@@ -33,6 +33,10 @@ public class SuspicionMeter : MonoBehaviour {
 		GUI.Box(new Rect(10, 10, suspicionBarLength, 20), text.Substring(0, (int)Mathf.Floor(currentSuspicion/9))); // As numbers: currentSuspicion + "/" + maxSuspicion
 	}
 	
+	void ResetSuspicionMeter() {
+		currentSuspicion = 0;	
+	}
+	
 	void AdjustSuspicionBar(int adj) {
 		currentSuspicion += adj;
 		if (currentSuspicion < 0) {
