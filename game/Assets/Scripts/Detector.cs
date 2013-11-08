@@ -12,24 +12,37 @@ public class Detector : MonoBehaviour
 	GameObject player;
 	private SuspicionMeter suspicionMeter;
 	Transform playerObject;
+	private static float dToCorner = 0.4f;
+	private Vector3[] corners = new Vector3[] {
+                        new Vector3 (dToCorner, dToCorner, dToCorner),
+                        new Vector3 (dToCorner, dToCorner, -dToCorner),
+                        new Vector3 (dToCorner, -dToCorner, dToCorner),
+                        new Vector3 (dToCorner, -dToCorner, -dToCorner),
+                        
+                        new Vector3 (-dToCorner, dToCorner, dToCorner),
+                        new Vector3 (-dToCorner, dToCorner, -dToCorner),
+                        new Vector3 (-dToCorner, -dToCorner, dToCorner),
+                        new Vector3 (-dToCorner, -dToCorner, -dToCorner)
+                };
 	
 	void Start ()
 	{
 		start_position = start_marker.position; //setting the respawn point
 		threshold = new Vector3 (0.8f, 0, 0);		//	The direction of this vector does not matter, only the magnitude.
-		FindPlayer();
+		FindPlayer ();
 		playerObject = player.transform.Find ("w_box_5_w_box_5_w_box_5");
 	}
 	
 	void Update ()
 	{
-		if (player == null) FindPlayer ();
+		if (player == null)
+			FindPlayer ();
 		
 		if (CanSeePlayer ()) {
 			Debug.Log ("Seen player");
 			if (playerMoving () && !WinCondition.WinOrNot) {
 				Debug.Log ("Seen player moving");
-				this.gameObject.SendMessage("AdjustSuspicionBar",3 , SendMessageOptions.RequireReceiver);
+				this.gameObject.SendMessage ("AdjustSuspicionBar", 3, SendMessageOptions.RequireReceiver);
 				//player.transform.position = start_position;  //port player to respawn BROKEN
 						
 				// WaitAndLoadLevel(2.0f);
@@ -37,7 +50,8 @@ public class Detector : MonoBehaviour
 		}
 	}
 	
-	void FindPlayer() {
+	void FindPlayer ()
+	{
 		player = GameObject.FindGameObjectWithTag ("Player");
 		playerObject = player.transform.Find ("w_box_5_w_box_5_w_box_5");
 	}
@@ -50,11 +64,18 @@ public class Detector : MonoBehaviour
 		Vector3 viewPos = CameraManger.getActiveCamera ().WorldToViewportPoint (player.transform.position);
 		Vector3 here = CameraManger.getActiveCamera ().transform.position;
 		Vector3 pos = player.transform.position;
-		RaycastHit hit;
-		
-		bool linecastHit = Physics.Linecast (here, pos, out hit);
-		if (linecastHit && checkViewPos (viewPos) && (playerObject.collider == hit.collider)) {
-			return true;
+                
+		foreach (Vector3 v in corners) {
+			RaycastHit rch;
+			bool didhit = Physics.Linecast (here, pos + v, out rch);
+			Debug.DrawRay (new Vector3 (0, 0, 0), pos + v);
+			if (checkViewPos (viewPos) && didhit) {
+				if (rch.transform == player.transform) {
+					Debug.Log ("You are seen");
+					return true;
+				}
+//                                Debug.DrawRay (new Vector3 (0, 0, 0), rch.transform.position);
+			}
 		}
 		return false;
 	}
