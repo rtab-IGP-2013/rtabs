@@ -35,9 +35,9 @@ public class Detector : MonoBehaviour
 	
 	void Update ()
 	{
-		if (player == null)
+		if (player == null){
 			FindPlayer ();
-		
+		}
 		if (CanSeePlayer ()) {
 			Debug.Log ("Seen player");
 			if (playerMoving () && !WinCondition.WinOrNot) {
@@ -61,8 +61,8 @@ public class Detector : MonoBehaviour
 	//			player.collider.bounds.Contains (hit.transform.position) doesn't seem to be doing the trick :(
 	bool CanSeePlayer ()
 	{
-		Vector3 viewPos = CameraManger.getActiveCamera ().WorldToViewportPoint (player.transform.position);
-		Vector3 here = CameraManger.getActiveCamera ().transform.position;
+		Vector3 viewPos = CameraManager.getActiveCamera ().WorldToViewportPoint (player.transform.position);
+		Vector3 here = CameraManager.getActiveCamera ().transform.position;
 		Vector3 pos = player.transform.position;
                 
 		foreach (Vector3 v in corners) {
