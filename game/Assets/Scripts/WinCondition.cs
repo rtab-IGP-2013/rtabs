@@ -5,26 +5,26 @@ public class WinCondition : MonoBehaviour
 {
 	static string text = "";
 	public static bool WinOrNot = false;
+	public GUITexture[] winTexts = new GUITexture[1];
 
 	void OnGUI ()
 	{
 		GUI.Label (new Rect (10, 10, 200, 80), text);
 	}
-	// Use this for initialization
-	void Start ()
-	{
-        
-	}
-        
-	// Update is called once per frame
-	void Update ()
-	{
-		if (transform.position.z > 40.0f) {
-			//do something
-			//text = "You win the game!!!";
-			//WinOrNot = true;
 
-
-		}
+	IEnumerator OnTriggerEnter (Collider box)
+	{
+		int rand = Random.Range (0, winTexts.Length);
+		Instantiate (winTexts [rand], new Vector3 (0.5f, 0.5f, 0), Quaternion.identity);
+		text = "You win the game!!!";
+		WinCondition.WinOrNot = true;
+		gameObject.renderer.enabled = false;
+		gameObject.collider.enabled = false;
+		yield return new WaitForSeconds(2);
+		WinCondition.WinOrNot = false;
+		text = "";
+		Application.LoadLevel ("menu"); 
 	}
+
 }
+
