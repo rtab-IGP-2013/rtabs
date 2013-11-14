@@ -24,8 +24,8 @@ public class CameraManager : MonoBehaviour
 		// Security camera borders
 		int frameBorderLength = 50;
 		int screenEdgeOffset = 20;
-		int frameThickness = 2;
-		Color frameColor = new Color32(100, 220, 31, 131);
+		int frameThickness = 5;
+		Color frameColor = new Color32(100, 240, 31, 40);
 		
 		Texture2D horizontalTexture = new Texture2D(frameBorderLength, frameThickness);
 		Texture2D verticalTexture = new Texture2D(frameThickness, frameBorderLength);
@@ -43,7 +43,7 @@ public class CameraManager : MonoBehaviour
 		horizontalStyle.normal.background = horizontalTexture;
 		verticalStyle.normal.background = verticalTexture;
 		
-		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(screenEdgeOffset + frameThickness, screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
 		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
 		
 		GUI.Box (new Rect(screenEdgeOffset, Screen.height - screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
@@ -52,7 +52,7 @@ public class CameraManager : MonoBehaviour
 		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
 		GUI.Box (new Rect(Screen.width - screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
 		 
-		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength + frameThickness, frameThickness), "", horizontalStyle); // horizontal bar
 		GUI.Box (new Rect(Screen.width - screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", horizontalStyle); // vertical bar
 	}
 	
