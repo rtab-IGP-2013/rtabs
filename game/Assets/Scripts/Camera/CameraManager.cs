@@ -11,6 +11,31 @@ public class CameraManager : MonoBehaviour
 	public static Camera activeCam;
 	private bool followOn = false;
 	private bool cycleOn = true;
+	private string guiText = "omglol";
+	private int myGuiWidth = 200;
+	
+	void OnGUI ()
+	{
+		GUI.color = Color.yellow;
+		Rect rect = new Rect (Screen.width - myGuiWidth - 150, Screen.height - 50, myGuiWidth, 50);
+		
+		GUI.Box (rect, guiText);;
+		
+		// Security camera borders
+		int frameBorderLength = 50;
+		int screenEdgeOffset = 20;
+		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameBorderLength, 1), "no vit");
+		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, 1, frameBorderLength), "no vit");
+		
+		GUI.Box (new Rect(screenEdgeOffset, Screen.height - screenEdgeOffset, frameBorderLength, 1), "no vit");
+		GUI.Box (new Rect(screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), 1, frameBorderLength), "no vit");
+		
+		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), screenEdgeOffset, frameBorderLength, 1), "no vit");
+		GUI.Box (new Rect(Screen.width - screenEdgeOffset, screenEdgeOffset, 1, frameBorderLength), "no vit");
+		
+		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength, 1), "no vit");
+		GUI.Box (new Rect(Screen.width - screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), 1, frameBorderLength), "no vit");
+	}
 	
 	// Use this for initialization
 	void Start ()
@@ -51,6 +76,8 @@ public class CameraManager : MonoBehaviour
 		cameras.Remove (followCam);
 		
 		StartCoroutine (WaitAndCycle (4));
+		
+		guiText = activeCam.gameObject.name;
 	}
 	
 	// Update is called once per frame
@@ -112,6 +139,8 @@ public class CameraManager : MonoBehaviour
 		toCamera.enabled = true;
 		
 		activeCam = toCamera;
+		
+		guiText = activeCam.gameObject.name;
 	}
 	
 	public static Camera getActiveCamera ()
