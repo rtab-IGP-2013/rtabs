@@ -24,17 +24,36 @@ public class CameraManager : MonoBehaviour
 		// Security camera borders
 		int frameBorderLength = 50;
 		int screenEdgeOffset = 20;
-		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameBorderLength, 1), "no vit");
-		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, 1, frameBorderLength), "no vit");
+		int frameThickness = 2;
+		Color frameColor = new Color32(100, 220, 31, 131);
 		
-		GUI.Box (new Rect(screenEdgeOffset, Screen.height - screenEdgeOffset, frameBorderLength, 1), "no vit");
-		GUI.Box (new Rect(screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), 1, frameBorderLength), "no vit");
+		Texture2D horizontalTexture = new Texture2D(frameBorderLength, frameThickness);
+		Texture2D verticalTexture = new Texture2D(frameThickness, frameBorderLength);
+		for (int i = 0; i < frameBorderLength; i++) {
+			for (int j = 0; j < frameThickness; j++) {
+				horizontalTexture.SetPixel (i, j, frameColor);
+				verticalTexture.SetPixel(j, i, frameColor);
+			}
+		}
+		horizontalTexture.Apply();
+		verticalTexture.Apply ();
 		
-		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), screenEdgeOffset, frameBorderLength, 1), "no vit");
-		GUI.Box (new Rect(Screen.width - screenEdgeOffset, screenEdgeOffset, 1, frameBorderLength), "no vit");
+		GUIStyle horizontalStyle = new GUIStyle();
+		GUIStyle verticalStyle = new GUIStyle();
+		horizontalStyle.normal.background = horizontalTexture;
+		verticalStyle.normal.background = verticalTexture;
 		
-		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength, 1), "no vit");
-		GUI.Box (new Rect(Screen.width - screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), 1, frameBorderLength), "no vit");
+		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		
+		GUI.Box (new Rect(screenEdgeOffset, Screen.height - screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		
+		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(Screen.width - screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		 
+		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(Screen.width - screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", horizontalStyle); // vertical bar
 	}
 	
 	// Use this for initialization
