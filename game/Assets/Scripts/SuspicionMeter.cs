@@ -30,7 +30,7 @@ public class SuspicionMeter : MonoBehaviour {
 	
 	void OnGUI() {
 
-        GUI.Box(new Rect(10, 10, Mathf.Max(suspicionBarLength, 15), 20), text.Substring(0, Mathf.Min((int)Mathf.Floor(currentSuspicion / (text.Length-2)), text.Length))); // As numbers: currentSuspicion + "/" + maxSuspicion
+        GUI.Box(new Rect(Screen.width / 2 - 200, 10, Mathf.Max(suspicionBarLength, 15), 20), text.Substring(0, Mathf.Min((int)Mathf.Floor(currentSuspicion / (text.Length-2)), text.Length))); // As numbers: currentSuspicion + "/" + maxSuspicion
 	}
 	
 	void ResetSuspicionMeter() {

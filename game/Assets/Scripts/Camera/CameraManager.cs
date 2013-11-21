@@ -11,6 +11,50 @@ public class CameraManager : MonoBehaviour
 	public static Camera activeCam;
 	private bool followOn = false;
 	private bool cycleOn = true;
+	private string guiText = "omglol";
+	private int myGuiWidth = 200;
+	
+	void OnGUI ()
+	{
+		GUI.color = Color.yellow;
+		Rect rect = new Rect (Screen.width - myGuiWidth - 150, Screen.height - 50, myGuiWidth, 50);
+		
+		GUI.Box (rect, guiText);;
+		
+		// Security camera borders
+		int frameBorderLength = 50;
+		int screenEdgeOffset = 20;
+		int frameThickness = 5;
+		Color frameColor = new Color32(100, 240, 31, 40);
+		
+		Texture2D horizontalTexture = new Texture2D(frameBorderLength, frameThickness);
+		Texture2D verticalTexture = new Texture2D(frameThickness, frameBorderLength);
+		for (int i = 0; i < frameBorderLength; i++) {
+			for (int j = 0; j < frameThickness; j++) {
+				horizontalTexture.SetPixel (i, j, frameColor);
+				verticalTexture.SetPixel(j, i, frameColor);
+			}
+		}
+		horizontalTexture.Apply();
+		verticalTexture.Apply ();
+		
+		GUIStyle horizontalStyle = new GUIStyle();
+		GUIStyle verticalStyle = new GUIStyle();
+		horizontalStyle.normal.background = horizontalTexture;
+		verticalStyle.normal.background = verticalTexture;
+		
+		GUI.Box (new Rect(screenEdgeOffset + frameThickness, screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		
+		GUI.Box (new Rect(screenEdgeOffset, Screen.height - screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		
+		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(Screen.width - screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		 
+		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength + frameThickness, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect(Screen.width - screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", horizontalStyle); // vertical bar
+	}
 	
 	// Use this for initialization
 	void Start ()
@@ -51,6 +95,8 @@ public class CameraManager : MonoBehaviour
 		cameras.Remove (followCam);
 		
 		StartCoroutine (WaitAndCycle (4));
+		
+		guiText = activeCam.gameObject.name;
 	}
 	
 	// Update is called once per frame
@@ -112,6 +158,8 @@ public class CameraManager : MonoBehaviour
 		toCamera.enabled = true;
 		
 		activeCam = toCamera;
+		
+		guiText = activeCam.gameObject.name;
 	}
 	
 	public static Camera getActiveCamera ()
