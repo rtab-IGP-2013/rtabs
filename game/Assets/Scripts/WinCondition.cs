@@ -10,6 +10,9 @@ public class WinCondition : MonoBehaviour
 	void OnGUI ()
 	{
 		GUI.Label (new Rect (10, 10, 200, 80), text);
+		
+		
+		
 	}
 
 	IEnumerator OnTriggerEnter (Collider box)
@@ -23,8 +26,29 @@ public class WinCondition : MonoBehaviour
 		yield return new WaitForSeconds(2);
 		WinCondition.WinOrNot = false;
 		text = "";
-		Application.LoadLevel ("menu"); 
+		
+		Application.LoadLevel (Application.loadedLevel + 1);
+		
+		
 	}
-
+	
+	void Update ()
+	{	
+		//cheat to win if V is pressed
+		if (Input.GetKeyDown (KeyCode.V)) {
+			WinCondition.WinOrNot = true;
+			gameObject.renderer.enabled = false;
+			gameObject.collider.enabled = false;
+			
+			WinCondition.WinOrNot = false;
+			text = "";
+			
+			Application.LoadLevel (Application.loadedLevel + 1);
+			
+		}
+	}
+	
+	
+	
 }
 

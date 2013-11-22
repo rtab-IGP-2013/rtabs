@@ -1,37 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
-public class MenuScript : MonoBehaviour {
 
-    public float buttonWidth = 400.0f;
-    public float buttonHeight = 75.0f;
-    public float margin = 10.0f;
-    float hCenter;
-    float vCenter;
+public class MenuScript : MonoBehaviour
+{
 
-    void Start()
-    {
-        hCenter = (Screen.width / 2) - (buttonWidth / 2);
-        vCenter = (Screen.height / 2) - (buttonHeight / 2);
-    }
 
-    void OnGUI()
-    {
-        if (GUI.Button(new Rect(hCenter, vPosition(0), buttonWidth, buttonHeight), "Start sneakin'"))
-        {
-            Application.LoadLevel("main");
-        }
-        if (GUI.Button(new Rect(hCenter, vPosition(1), buttonWidth, buttonHeight), "Dropping the bassbox"))
-        {
-            Application.LoadLevel("dropbox");
-        }
-        if (GUI.Button(new Rect(hCenter, vPosition(2), buttonWidth, buttonHeight), "Rage quit"))
-        {
-            Application.Quit();
-        }
-    }
 
-    float vPosition(int order)
-    {
-        return vCenter + (order * (buttonHeight + margin));
-    }
+	void Start ()
+	{
+        
+	}
+
+	void OnGUI ()
+	{
+		GUILayout.BeginArea (new Rect (Screen.width / 2 - 150, Screen.height / 2 - 100, 300, 400));
+		GUILayout.FlexibleSpace ();
+		if (GUILayout.Button ("Play!", GUILayout.Height (50))) {
+			SelectLevel ();
+		}
+		if (GUILayout.Button ("Setting", GUILayout.Height (50))) {
+			
+		}
+		if (GUILayout.Button ("Help", GUILayout.Height (50))) {
+			
+		}
+		if (GUILayout.Button ("Rage quit", GUILayout.Height (50))) {
+			Application.Quit ();
+		}
+		
+		GUILayout.FlexibleSpace ();
+		GUILayout.EndArea ();
+		
+        
+	}
+
+	void SelectLevel ()
+	{
+		Application.LoadLevel ("LevelManager");
+	}
+
 }

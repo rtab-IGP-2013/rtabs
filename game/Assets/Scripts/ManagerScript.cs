@@ -14,6 +14,8 @@ public class ManagerScript : MonoBehaviour
 	{
 		Instantiate (playerPrefab, startMarker.position, Quaternion.identity);
 		player = GameObject.FindGameObjectWithTag("Player");
+		//unlock this level
+		PlayerPrefs.SetInt ("unlocked" + Application.loadedLevelName, 1);
 	}
 	
 	// Update is called once per frame
@@ -25,6 +27,22 @@ public class ManagerScript : MonoBehaviour
 			explosion.particleSystem.Play();
 			Destroy (explosion, 2.0f);
 			KillPlayer ();
+		}
+		//go back to menu
+		if (Input.GetKeyDown(KeyCode.M)){
+			Application.LoadLevel("menu");
+		}
+		//reset save history
+		if (Input.GetKeyDown(KeyCode.R)){
+			PlayerPrefs.SetInt("unlockedLevel2", 0);
+			PlayerPrefs.SetInt("unlockedLevel3", 0);
+			PlayerPrefs.SetInt("unlockedLevel4", 0);
+			PlayerPrefs.SetInt("unlockedLevel5", 0);
+			PlayerPrefs.SetInt("unlockedLevel6", 0);
+			PlayerPrefs.SetInt("unlockedLevel7", 0);
+			PlayerPrefs.SetInt("unlockedLevel8", 0);
+			PlayerPrefs.SetInt("unlockedLevel9", 0);
+			PlayerPrefs.SetInt("unlockedLevel10", 0);
 		}
 	}
 	
