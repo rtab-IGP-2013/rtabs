@@ -1,5 +1,11 @@
 rtabs
 =====
+_________________________________________________________________________
+USE NEW TEXTURES AND CAMERAMODELS WHEN DESIGNING NEW LEVELS!!!!!        |
+                                                                        |
+________________________________________________________________________|
+
+
 Game description:
 
 Real-Time Agent-Based Simulation:
