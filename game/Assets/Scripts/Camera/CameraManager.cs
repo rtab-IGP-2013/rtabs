@@ -118,6 +118,9 @@ public class CameraManager : MonoBehaviour
 		if (Input.GetKeyDown (KeyCode.C)) {
 			CycleCameras ();
 		}
+		if (Input.GetKeyDown (KeyCode.X)) {
+			CycleCamerasBackwards ();
+		}
 
 	}
 
@@ -141,6 +144,22 @@ public class CameraManager : MonoBehaviour
 					return;
 				} else {
 					SwitchCameras (cameras [i], cameras [i + 1]);
+					return;
+				}
+			}
+		}
+	}
+	
+	private void CycleCamerasBackwards ()
+	{	
+		//	Finds active camera from cameras[] and switches to the next one.		
+		for (int i = 0; i < cameras.Count; i++) {
+			if (cameras [i].enabled == true) {
+				if (i == 0) {
+					SwitchCameras (cameras [i], cameras[cameras.Count-1]);
+					return;
+				} else {
+					SwitchCameras (cameras [i], cameras [i - 1]);
 					return;
 				}
 			}
