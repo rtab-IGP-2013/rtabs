@@ -11,7 +11,7 @@ public class Detector : MonoBehaviour
 	private SuspicionMeter suspicionMeter;
 	private int decreaseCounter;
 	private int increaseCounter;
-	private int increaseSuspicion=4; //increase every 4 frames
+	private int increaseSuspicion=15; //increase every 4 frames
 	private int decreaseSuspicion=5; // decrease every 5 frames
 	private Transform playerObject;
 	private static float dToCorner = 0.4f;
@@ -47,7 +47,7 @@ public class Detector : MonoBehaviour
 			}
 			if (playerMoving () && !WinCondition.WinOrNot) {
 				// Debug.Log ("Seen player moving");
-				this.gameObject.SendMessage ("AdjustSuspicionBar", 30, SendMessageOptions.RequireReceiver);
+				this.gameObject.SendMessage ("AdjustSuspicionBar", 5, SendMessageOptions.RequireReceiver);
 						
 				// WaitAndLoadLevel(2.0f);
 			}

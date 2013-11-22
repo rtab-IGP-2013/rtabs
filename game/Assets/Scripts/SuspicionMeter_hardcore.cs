@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-public class SuspicionMeter : MonoBehaviour {
+public class SuspicionMeter_hardcore : MonoBehaviour {
 	private int maxSuspicion = 100;
 	private int currentSuspicion = 0;
 	private float suspicionBarLength;
