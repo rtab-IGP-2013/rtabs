@@ -22,10 +22,10 @@ public class SuspicionMeter : MonoBehaviour {
 			this.gameObject.SendMessage ("KillPlayer", SendMessageOptions.RequireReceiver);
 		}
 		
-		if (frameCounter == 0) {
+		/*if (frameCounter == 0) {
 			AdjustSuspicionBar(-1);
 		}
-		frameCounter = (frameCounter + 1) % decaysSuspicion;
+		frameCounter = (frameCounter + 1) % decaysSuspicion;*/
 	}
 	
 	void OnGUI() {

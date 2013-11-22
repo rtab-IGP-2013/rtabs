@@ -94,9 +94,13 @@ public class CameraManager : MonoBehaviour
 		}
 		cameras.Remove (followCam);
 		
+<<<<<<< HEAD
 		StartCoroutine (WaitAndCycle (4));
 		
 		guiText = activeCam.gameObject.name;
+=======
+		//StartCoroutine (WaitAndCycle (4));
+>>>>>>> 9031231f1d4ee5331b213eab114e339fbe1f4223
 	}
 	
 	// Update is called once per frame
@@ -144,6 +148,21 @@ public class CameraManager : MonoBehaviour
 					return;
 				} else {
 					SwitchCameras (cameras [i], cameras [i + 1]);
+					return;
+				}
+			}
+		}
+	}
+		private void CycleCamerasBackwards ()
+	{	
+		//	Finds active camera from cameras[] and switches to the previous one.		
+		for (int i = 0; i < cameras.Count; i++) {
+			if (cameras [i].enabled == true) {
+				if (i == 0) {
+					SwitchCameras (cameras [i], cameras [cameras.Count-1]);
+					return;
+				} else {
+					SwitchCameras (cameras [i], cameras [i - 1]);
 					return;
 				}
 			}
