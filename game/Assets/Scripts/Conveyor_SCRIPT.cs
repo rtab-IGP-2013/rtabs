@@ -28,4 +28,12 @@ public class Conveyor_SCRIPT : MonoBehaviour {
 		if(rigidbody.velocity.magnitude < maxSpeed)
 			rigidbody.AddForce(speed * transform.forward, ForceMode.VelocityChange);
 	}
+
+	public float getSpeed()	{
+		return this.speed;
+	}
+
+	public void setSpeed(float targetSpeed)	{
+		this.speed = targetSpeed;
+	}
 }
