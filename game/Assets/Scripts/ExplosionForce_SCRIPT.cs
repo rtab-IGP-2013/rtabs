@@ -7,6 +7,7 @@ public class ExplosionForce_SCRIPT : MonoBehaviour {
 	public float power = 2.0F;
 
 	private int explosions = 1;
+    public GameObject sound;
 
 	// Use this for initialization
 	void Start () {
@@ -32,4 +33,18 @@ public class ExplosionForce_SCRIPT : MonoBehaviour {
 			audio.Play();
 		}
 	}
+
+    public void ExplodeNoReset()
+    {
+        Vector3 explosionPos = transform.position;
+        Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
+        foreach (Collider hit in colliders)
+        {
+            if (hit && hit.rigidbody)
+                hit.rigidbody.AddExplosionForce(power, explosionPos, radius, 1.5F);
+        }
+
+        Instantiate(sound, gameObject.transform.position, Quaternion.identity);
+        Destroy(gameObject);
+    }
 }
