@@ -19,7 +19,7 @@ public class CameraManager : MonoBehaviour
 		GUI.color = Color.yellow;
 		Rect rect = new Rect (Screen.width - myGuiWidth - 150, Screen.height - 50, myGuiWidth, 50);
 		
-		GUI.Box (rect, guiText);;
+		GUI.Box (rect, guiText);
 		
 		// Security camera borders
 		int frameBorderLength = 50;
