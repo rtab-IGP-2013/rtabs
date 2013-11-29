@@ -94,9 +94,13 @@ public class CameraManager : MonoBehaviour
 		}
 		cameras.Remove (followCam);
 		
+
 		StartCoroutine (WaitAndCycle (4));
 		
 		guiText = activeCam.gameObject.name;
+
+		//StartCoroutine (WaitAndCycle (4));
+
 	}
 	
 	// Update is called once per frame
@@ -149,6 +153,7 @@ public class CameraManager : MonoBehaviour
 			}
 		}
 	}
+
 	
 	private void CycleCamerasBackwards ()
 	{	
