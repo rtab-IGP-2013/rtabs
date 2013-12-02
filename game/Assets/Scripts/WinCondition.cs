@@ -17,18 +17,19 @@ public class WinCondition : MonoBehaviour
 
 	IEnumerator OnTriggerEnter (Collider box)
 	{
-		int rand = Random.Range (0, winTexts.Length);
-		Instantiate (winTexts [rand], new Vector3 (0.5f, 0.5f, 0), Quaternion.identity);
-		text = "You win the game!!!";
-		WinCondition.WinOrNot = true;
-		gameObject.renderer.enabled = false;
-		gameObject.collider.enabled = false;
-		yield return new WaitForSeconds(2);
-		WinCondition.WinOrNot = false;
-		text = "";
-		
-		Application.LoadLevel (Application.loadedLevel + 1);
-		
+		if(box.tag == "Player") {
+			int rand = Random.Range (0, winTexts.Length);
+			Instantiate (winTexts [rand], new Vector3 (0.5f, 0.5f, 0), Quaternion.identity);
+			text = "You win the game!!!";
+			WinCondition.WinOrNot = true;
+			gameObject.renderer.enabled = false;
+			gameObject.collider.enabled = false;
+			yield return new WaitForSeconds(2);
+			WinCondition.WinOrNot = false;
+			text = "";
+			
+			Application.LoadLevel (Application.loadedLevel + 1);
+		}
 		
 	}
 	
