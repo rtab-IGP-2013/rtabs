@@ -3,8 +3,7 @@ using System.Collections;
 
 public class PlayerSoundController : MonoBehaviour {
 
-	public AudioClip slideSound;
-	public AudioClip dropSound;
+	public GameObject dropsound;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +16,9 @@ public class PlayerSoundController : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col) {
 		if(col.gameObject.tag == "floor") {
-
+			if(gameObject.transform.rigidbody.velocity.y < 0) {
+				Instantiate(dropsound, gameObject.transform.position, Quaternion.identity);
+			}
 		}
 	}
 
@@ -30,7 +31,6 @@ public class PlayerSoundController : MonoBehaviour {
 	void OnCollisionExit(Collision col)	{
 		if(col.gameObject.tag == "floor") {
 			audio.volume = 0;
-			Debug.Log("Exited collision");
 		}
 	}
 
