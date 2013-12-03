@@ -52,13 +52,13 @@ public class MenuScript : MonoBehaviour
 				LevelName = "Level 4 - Down the well";
 				break;
 			case 5:
-				LevelName = "Level 5 - Box Office";
+				LevelName = "Level 5 - Maritime Museum";
 				break;
 			case 6:
-				LevelName = "Level 6 - Maritime Museum";
+				LevelName = "Level 6 - Crateonism";
 				break;
 			case 7:
-				LevelName = "Level 7 - Mesa Box";
+				LevelName = "Level 7 - Black Box Mesa";
 				break;		
 			}
 			
