@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class PlayerMovementController : MonoBehaviour {
-	public static int speed = 50;
-	public static int maxspeed = 5;
+	private int speed = 50;
+	public int maxspeed = 5;
 	private int jumps_left;
 	public int max_jumps = 1;
 	public float jumpspeed = 10f;
