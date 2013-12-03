@@ -59,11 +59,8 @@ public class CameraManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		Camera[] cameraArray = FindObjectsOfType (typeof(Camera)) as Camera[];
 		
-		for (int i = 0; i < cameraArray.Length; i++) {
-			cameras.Add (cameraArray [i]);
-		}
+		findCameras();
 		
 		Debug.Log ("Found " + cameras.Count + " cameras");
 		
@@ -197,5 +194,19 @@ public class CameraManager : MonoBehaviour
 			return false;
 		}
 		return true;
+	}
+	public void findCameras(){
+		cameras = new List<Camera> ();
+		Camera[] cameraArray = FindObjectsOfType (typeof(Camera)) as Camera[];
+		Debug.Log (cameraArray.Length +"kameraa");
+		for (int i = 0; i < cameraArray.Length; i++) {
+			cameras.Add (cameraArray [i]);
+	}
+	}
+	public void removeCamera(Camera cam){
+		if(activeCam==cam){
+			CycleCameras();
+		}
+		cameras.Remove (cam);
 	}
 }
