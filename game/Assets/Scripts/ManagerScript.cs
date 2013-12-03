@@ -56,5 +56,8 @@ public class ManagerScript : MonoBehaviour
 		Destroy (GameObject.FindGameObjectWithTag ("Player"));
 		Instantiate (playerPrefab, startMarker.position, Quaternion.identity);
 		player = GameObject.FindGameObjectWithTag("Player");
+		
+		// Set onConveyerBelt = false
+		this.gameObject.SendMessage("SetOnConveyerBelt", false, SendMessageOptions.RequireReceiver);
 	}
 }
