@@ -26,6 +26,11 @@ public class Conveyor_SCRIPT : MonoBehaviour {
 	//	Moves player (can be set to any object with tags) in direction of CONVEYOR BELT'S LOCAL Z AXIS
 	void OnCollisionStay(Collision col)	
 	{
+		// Make conveyer belt mode stick when colliding with other objects
+		if (col.gameObject.tag.Equals("Player")) {
+			GameObject.FindGameObjectWithTag("Manager").SendMessage("SetOnConveyerBelt", true, SendMessageOptions.RequireReceiver);
+		}
+		
 		if(col.gameObject.rigidbody == null)	{
 			return;
 		}
