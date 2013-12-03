@@ -36,6 +36,7 @@ public class ExplosionForce_SCRIPT : MonoBehaviour {
 
     public void ExplodeNoReset()
     {
+		Debug.Log ("DERPDERP");
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, radius);
         foreach (Collider hit in colliders)

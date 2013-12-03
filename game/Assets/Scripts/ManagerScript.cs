@@ -25,8 +25,6 @@ public class ManagerScript : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.End)){
 			player = GameObject.FindGameObjectWithTag("Player");
-            Instantiate(explosiveBox, player.transform.position, Quaternion.identity);
-            GameObject.FindGameObjectWithTag("TNT").GetComponent<ExplosionForce_SCRIPT>().ExplodeNoReset();
 			//explosion = (GameObject)Instantiate (explosionPrefab, player.transform.position, new Quaternion(-1.0f, 0.0f, 0.0f, 1.0f));
 			//explosion.particleSystem.Play();
 			// Destroy (explosion, 2.0f);
@@ -53,6 +51,9 @@ public class ManagerScript : MonoBehaviour
 	void KillPlayer ()
 	{
 		Debug.Log ("Well fuu I'm dead");
+		player = GameObject.FindGameObjectWithTag("Player");
+		Instantiate(explosiveBox, player.transform.position, Quaternion.identity);
+		player.GetComponent<ExplosionForce_SCRIPT>().ExplodeNoReset();
 		SendMessage ("ResetSuspicionMeter", SendMessageOptions.RequireReceiver);
         int rand = Random.Range(0, loseTexts.Length);
         Instantiate(loseTexts[rand], new Vector3(0.5f, 0.5f, 0), Quaternion.identity);
