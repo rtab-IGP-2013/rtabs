@@ -9,6 +9,7 @@ public class ManagerScript : MonoBehaviour
 	private GameObject player;
 	public Transform startMarker;
     public GUITexture[] loseTexts = new GUITexture[3];
+    public GameObject explosiveBox;
 	
 	// Use this for initialization
 	void Start ()
@@ -24,9 +25,11 @@ public class ManagerScript : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.End)){
 			player = GameObject.FindGameObjectWithTag("Player");
-			explosion = (GameObject)Instantiate (explosionPrefab, player.transform.position, new Quaternion(-1.0f, 0.0f, 0.0f, 1.0f));
-			explosion.particleSystem.Play();
-			Destroy (explosion, 2.0f);
+            Instantiate(explosiveBox, player.transform.position, Quaternion.identity);
+            GameObject.FindGameObjectWithTag("TNT").GetComponent<ExplosionForce_SCRIPT>().ExplodeNoReset();
+			//explosion = (GameObject)Instantiate (explosionPrefab, player.transform.position, new Quaternion(-1.0f, 0.0f, 0.0f, 1.0f));
+			//explosion.particleSystem.Play();
+			// Destroy (explosion, 2.0f);
 			KillPlayer ();
 		}
 		//go back to menu
