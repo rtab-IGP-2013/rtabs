@@ -22,7 +22,12 @@ public class Detector : MonoBehaviour
                         new Vector3 (-dToCorner, -dToCorner, dToCorner),
                         new Vector3 (-dToCorner, -dToCorner, -dToCorner)
                 };
+		private bool onConveyerBelt = false;
         
+		void SetOnConveyerBelt(bool onConveyerBelt) {
+			this.onConveyerBelt = onConveyerBelt;
+		}
+	
         void Start ()
         {
         threshold = new Vector3(0.8f, 0, 0);                //        The direction of this vector does not matter, only the magnitude.
@@ -91,7 +96,7 @@ public class Detector : MonoBehaviour
         
         bool playerMoving ()
         {        
-                if (player.rigidbody.velocity.magnitude > threshold.magnitude)
+                if (player.rigidbody.velocity.magnitude > threshold.magnitude && !onConveyerBelt)
                         return true;
                 else
                         return false;
