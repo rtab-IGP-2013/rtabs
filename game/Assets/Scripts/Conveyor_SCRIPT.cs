@@ -16,9 +16,21 @@ public class Conveyor_SCRIPT : MonoBehaviour {
 	
 	}
 	
+	void OnCollisionEnter(Collision col)
+	{
+		if (col.gameObject.tag.Equals("Player")) {
+			GameObject.FindGameObjectWithTag("Manager").SendMessage("SetOnConveyerBelt", true, SendMessageOptions.RequireReceiver);
+		}
+	}
+	
 	//	Moves player (can be set to any object with tags) in direction of CONVEYOR BELT'S LOCAL Z AXIS
 	void OnCollisionStay(Collision col)	
 	{
+		// Make conveyer belt mode stick when colliding with other objects
+		if (col.gameObject.tag.Equals("Player")) {
+			GameObject.FindGameObjectWithTag("Manager").SendMessage("SetOnConveyerBelt", true, SendMessageOptions.RequireReceiver);
+		}
+		
 		if(col.gameObject.rigidbody == null)	{
 			return;
 		}
@@ -28,7 +40,14 @@ public class Conveyor_SCRIPT : MonoBehaviour {
 		if(rigidbody.velocity.magnitude < maxSpeed)
 			rigidbody.AddForce(speed * transform.forward, ForceMode.VelocityChange);
 	}
-
+	
+	void OnCollisionExit(Collision col)
+	{
+		if (col.gameObject.tag.Equals("Player")) {
+			GameObject.FindGameObjectWithTag("Manager").SendMessage("SetOnConveyerBelt", false, SendMessageOptions.RequireReceiver);
+		}
+	}
+	
 	public float getSpeed()	{
 		return this.speed;
 	}
