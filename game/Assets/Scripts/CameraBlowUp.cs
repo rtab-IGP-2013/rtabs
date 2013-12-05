@@ -21,9 +21,9 @@ public class CameraBlowUp : MonoBehaviour {
 		//audio.Play ();
 		if(col.gameObject.tag ==  "Player")
 			Debug.Log("Player hit Switch");
-		Destroy(target);
+		target.rigidbody.constraints=RigidbodyConstraints.None;
+		target.rigidbody.AddForce(new Vector3(0,0.2f,0));
    		candle.intensity=3;
-		GameObject manager = GameObject.FindGameObjectWithTag("Manager");
-		manager.gameObject.SendMessage ("removeCamera",camera, SendMessageOptions.RequireReceiver);
+		camera.tag="disabledCam";
 	}
 }

@@ -95,7 +95,8 @@ public class CameraManager : MonoBehaviour
 		// StartCoroutine (WaitAndCycle (4));
 		
 		guiText = activeCam.gameObject.name;
-
+		CycleCameras (); //to check if the first camera is disabled or enabled -> enables or disables detector
+		CycleCamerasBackwards();
 		//StartCoroutine (WaitAndCycle (4));
 
 	}
@@ -103,13 +104,13 @@ public class CameraManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetKeyDown (KeyCode.F)) {
+		/*if (Input.GetKeyDown (KeyCode.F)) {
 			followOn = returnOpposite (followOn);
 			if (!followOn) {
 				activeCam = cameras [0];
 				SwitchCameras (followCam, activeCam);
 			}
-		}
+		}*/
 		if (Input.GetKeyDown (KeyCode.Y)) {
 			cycleOn = returnOpposite (cycleOn);
 		}
@@ -177,7 +178,12 @@ public class CameraManager : MonoBehaviour
 		listener = toCamera.GetComponent (typeof(AudioListener)) as AudioListener;
 		listener.enabled = true;
 		toCamera.enabled = true;
-		
+		if(toCamera.tag=="disabledCam"){
+			this.gameObject.SendMessage ("disableDetector", SendMessageOptions.RequireReceiver);
+		}
+		else{
+			this.gameObject.SendMessage ("enableDetector", SendMessageOptions.RequireReceiver);
+		}
 		activeCam = toCamera;
 		
 		guiText = activeCam.gameObject.name;
