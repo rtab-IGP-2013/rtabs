@@ -92,7 +92,7 @@ public class CameraManager : MonoBehaviour
 		cameras.Remove (followCam);
 		
 
-		StartCoroutine (WaitAndCycle (4));
+		// StartCoroutine (WaitAndCycle (4));
 		
 		guiText = activeCam.gameObject.name;
 
