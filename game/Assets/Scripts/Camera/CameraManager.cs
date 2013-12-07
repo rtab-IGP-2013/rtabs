@@ -13,54 +13,69 @@ public class CameraManager : MonoBehaviour
 	private bool cycleOn = true;
 	private string guiText = "omglol";
 	private int myGuiWidth = 200;
+	public Texture recRed;
+	public Texture recGray;
+	public bool automaticCyclingOn = false;
+	public int cyclingTime = 3;
 	
 	void OnGUI ()
 	{
 		GUI.color = Color.yellow;
 		Rect rect = new Rect (Screen.width - myGuiWidth - 150, Screen.height - 50, myGuiWidth, 50);
 		
-		GUI.Box (rect, guiText);;
+		GUI.Box (rect, guiText);
+		;
 		
+		GUI.color = Color.white;
+		Rect rec = new Rect (50, Screen.height - 70, 160, 40);
+		
+		if (activeCam.tag == "disabledCam") {
+			GUI.DrawTexture (rec, recGray, ScaleMode.ScaleToFit, true, 0.0f);	
+		} else {
+			GUI.DrawTexture (rec, recRed, ScaleMode.ScaleToFit, true, 0.0f);
+		}
+		
+		GUI.color = Color.yellow;
 		// Security camera borders
 		int frameBorderLength = 50;
 		int screenEdgeOffset = 20;
 		int frameThickness = 5;
-		Color frameColor = new Color32(100, 240, 31, 40);
+		Color frameColor = new Color32 (100, 240, 31, 40);
 		
-		Texture2D horizontalTexture = new Texture2D(frameBorderLength, frameThickness);
-		Texture2D verticalTexture = new Texture2D(frameThickness, frameBorderLength);
+		Texture2D horizontalTexture = new Texture2D (frameBorderLength, frameThickness);
+		Texture2D verticalTexture = new Texture2D (frameThickness, frameBorderLength);
 		for (int i = 0; i < frameBorderLength; i++) {
 			for (int j = 0; j < frameThickness; j++) {
 				horizontalTexture.SetPixel (i, j, frameColor);
-				verticalTexture.SetPixel(j, i, frameColor);
+				verticalTexture.SetPixel (j, i, frameColor);
 			}
 		}
-		horizontalTexture.Apply();
+		horizontalTexture.Apply ();
 		verticalTexture.Apply ();
 		
-		GUIStyle horizontalStyle = new GUIStyle();
-		GUIStyle verticalStyle = new GUIStyle();
+		GUIStyle horizontalStyle = new GUIStyle ();
+		GUIStyle verticalStyle = new GUIStyle ();
 		horizontalStyle.normal.background = horizontalTexture;
 		verticalStyle.normal.background = verticalTexture;
 		
-		GUI.Box (new Rect(screenEdgeOffset + frameThickness, screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
-		GUI.Box (new Rect(screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		GUI.Box (new Rect (screenEdgeOffset + frameThickness, screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect (screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
 		
-		GUI.Box (new Rect(screenEdgeOffset, Screen.height - screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
-		GUI.Box (new Rect(screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		GUI.Box (new Rect (screenEdgeOffset, Screen.height - screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect (screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
 		
-		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
-		GUI.Box (new Rect(Screen.width - screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
+		GUI.Box (new Rect (Screen.width - (screenEdgeOffset + frameBorderLength), screenEdgeOffset, frameBorderLength, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect (Screen.width - screenEdgeOffset, screenEdgeOffset, frameThickness, frameBorderLength), "", verticalStyle); // vertical bar
 		 
-		GUI.Box (new Rect(Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength + frameThickness, frameThickness), "", horizontalStyle); // horizontal bar
-		GUI.Box (new Rect(Screen.width - screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", horizontalStyle); // vertical bar
+		GUI.Box (new Rect (Screen.width - (screenEdgeOffset + frameBorderLength), Screen.height - screenEdgeOffset, frameBorderLength + frameThickness, frameThickness), "", horizontalStyle); // horizontal bar
+		GUI.Box (new Rect (Screen.width - screenEdgeOffset, Screen.height - (screenEdgeOffset + frameBorderLength), frameThickness, frameBorderLength), "", horizontalStyle); // vertical bar
 	}
 	
 	// Use this for initialization
 	void Start ()
 	{
 		
-		findCameras();
+		findCameras ();
 		
 		Debug.Log ("Found " + cameras.Count + " cameras");
 		
@@ -90,12 +105,10 @@ public class CameraManager : MonoBehaviour
 			}
 		}
 		cameras.Remove (followCam);
-		
-
-		// StartCoroutine (WaitAndCycle (4));
-		
+				
 		guiText = activeCam.gameObject.name;
-		//StartCoroutine (WaitAndCycle (4));
+		if (automaticCyclingOn)
+			StartCoroutine (WaitAndCycle (cyclingTime));
 
 	}
 	
@@ -109,25 +122,23 @@ public class CameraManager : MonoBehaviour
 				SwitchCameras (followCam, activeCam);
 			}
 		}*/
-		if (Input.GetKeyDown (KeyCode.Y)) {
-			cycleOn = returnOpposite (cycleOn);
+		if (!automaticCyclingOn) {
+			if (followOn) {
+				SwitchCameras (activeCam, followCam);
+			}
+			if (Input.GetKeyDown (KeyCode.C)) {
+				CycleCameras ();
+			}
+			if (Input.GetKeyDown (KeyCode.X)) {
+				CycleCamerasBackwards ();
+			}
+			if (activeCam.tag == "disabledCam") {
+				this.gameObject.SendMessage ("disableDetector", SendMessageOptions.RequireReceiver);
+			}
+			if (activeCam.tag != "disabledCam") {
+				this.gameObject.SendMessage ("enableDetector", SendMessageOptions.RequireReceiver);
+			}
 		}
-		if (followOn) {
-			SwitchCameras (activeCam, followCam);
-		}
-		if (Input.GetKeyDown (KeyCode.C)) {
-			CycleCameras ();
-		}
-		if (Input.GetKeyDown (KeyCode.X)) {
-			CycleCamerasBackwards ();
-		}
-		if(activeCam.tag=="disabledCam"){
-			this.gameObject.SendMessage ("disableDetector", SendMessageOptions.RequireReceiver);
-		}
-		if(activeCam.tag!="disabledCam"){
-			this.gameObject.SendMessage ("enableDetector", SendMessageOptions.RequireReceiver);
-		}
-
 	}
 
 	IEnumerator WaitAndCycle (float lag)
@@ -155,7 +166,6 @@ public class CameraManager : MonoBehaviour
 			}
 		}
 	}
-
 	
 	private void CycleCamerasBackwards ()
 	{	
@@ -163,7 +173,7 @@ public class CameraManager : MonoBehaviour
 		for (int i = 0; i < cameras.Count; i++) {
 			if (cameras [i].enabled == true) {
 				if (i == 0) {
-					SwitchCameras (cameras [i], cameras[cameras.Count-1]);
+					SwitchCameras (cameras [i], cameras [cameras.Count - 1]);
 					return;
 				} else {
 					SwitchCameras (cameras [i], cameras [i - 1]);
@@ -182,10 +192,9 @@ public class CameraManager : MonoBehaviour
 		listener = toCamera.GetComponent (typeof(AudioListener)) as AudioListener;
 		listener.enabled = true;
 		toCamera.enabled = true;
-		if(toCamera.tag=="disabledCam"){
+		if (toCamera.tag == "disabledCam") {
 			this.gameObject.SendMessage ("disableDetector", SendMessageOptions.RequireReceiver);
-		}
-		else{
+		} else {
 			this.gameObject.SendMessage ("enableDetector", SendMessageOptions.RequireReceiver);
 		}
 		activeCam = toCamera;
@@ -205,17 +214,21 @@ public class CameraManager : MonoBehaviour
 		}
 		return true;
 	}
-	public void findCameras(){
+
+	public void findCameras ()
+	{
 		cameras = new List<Camera> ();
 		Camera[] cameraArray = FindObjectsOfType (typeof(Camera)) as Camera[];
-		Debug.Log (cameraArray.Length +"kameraa");
+		Debug.Log (cameraArray.Length + "kameraa");
 		for (int i = 0; i < cameraArray.Length; i++) {
 			cameras.Add (cameraArray [i]);
+		}
 	}
-	}
-	public void removeCamera(Camera cam){
-		if(activeCam==cam){
-			CycleCameras();
+
+	public void removeCamera (Camera cam)
+	{
+		if (activeCam == cam) {
+			CycleCameras ();
 		}
 		cameras.Remove (cam);
 	}
