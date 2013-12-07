@@ -19,11 +19,12 @@ public class CameraBlowUp : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider col) {
 		//audio.Play ();
-		if(col.gameObject.tag ==  "Player")
+		if(col.gameObject.tag ==  "Player"){
 			Debug.Log("Player hit Switch");
 		target.rigidbody.constraints=RigidbodyConstraints.None;
-		target.rigidbody.AddForce(new Vector3(0,0.2f,0));
+		target.rigidbody.AddForce(new Vector3(0,1,0));
    		candle.intensity=3;
 		camera.tag="disabledCam";
+		}
 	}
 }
