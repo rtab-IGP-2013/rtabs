@@ -33,6 +33,20 @@ public class ExplosionForce_SCRIPT : MonoBehaviour {
 			audio.Play();
 		}
 	}
+		public void BigExplode()	{
+		if(explosions > 0) {
+			explosions--;
+
+			Vector3 explosionPos = transform.position;
+			Collider[] colliders = Physics.OverlapSphere(explosionPos,radius);
+			foreach(Collider hit in colliders) {
+				if(hit && hit.rigidbody)
+					hit.rigidbody.AddExplosionForce(power*10,explosionPos,radius,1.5F);
+			}
+
+			audio.Play();
+		}
+	}
 
     public void ExplodeNoReset()
     {

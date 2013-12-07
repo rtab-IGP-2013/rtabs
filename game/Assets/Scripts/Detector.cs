@@ -117,12 +117,12 @@ public class Detector : MonoBehaviour
         }
 		public void disableDetector(){   //call this if you want to disable detector
 			detectorOn=false;
-			Debug.Log ("YOLO");
+
 		
 		}
 		public void enableDetector(){
 			detectorOn=true;
-			Debug.Log ("SWAG");
+
 		}
 		
 }
