@@ -13,6 +13,8 @@ public class CameraManager : MonoBehaviour
 	private bool cycleOn = true;
 	private string guiText = "omglol";
 	private int myGuiWidth = 200;
+	public Texture recRed;
+	public Texture recGray;
 	
 	void OnGUI ()
 	{
@@ -21,6 +23,13 @@ public class CameraManager : MonoBehaviour
 		
 		GUI.Box (rect, guiText);;
 		
+		Rect rec = new Rect (0, Screen.height - 50, myGuiWidth, 50);
+		
+		if(activeCam.tag == "disabledCam"){
+			GUI.DrawTexture(rec, recGray, ScaleMode.ScaleToFit, true, 10.0f);	
+		} else {
+			GUI.DrawTexture(rec, recRed, ScaleMode.ScaleToFit, true, 10.0f);
+		}
 		// Security camera borders
 		int frameBorderLength = 50;
 		int screenEdgeOffset = 20;
@@ -90,10 +99,7 @@ public class CameraManager : MonoBehaviour
 			}
 		}
 		cameras.Remove (followCam);
-		
-
-		// StartCoroutine (WaitAndCycle (4));
-		
+				
 		guiText = activeCam.gameObject.name;
 		//StartCoroutine (WaitAndCycle (4));
 
