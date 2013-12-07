@@ -17,6 +17,9 @@ public class FinalScript : MonoBehaviour {
 		void OnTriggerEnter(Collider col) {
 	
 		if(col.gameObject.tag ==  "Player"){
+			audio.Play();
+			GameObject music = GameObject.FindGameObjectWithTag("Music");
+			music.audio.Stop();
 			Debug.Log("Player hit Switch");
    			Spotlight.intensity=3;
 			List <Camera> cameras = new List<Camera> ();
