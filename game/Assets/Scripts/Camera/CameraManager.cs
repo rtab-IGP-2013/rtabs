@@ -182,12 +182,12 @@ public class CameraManager : MonoBehaviour
 		listener = toCamera.GetComponent (typeof(AudioListener)) as AudioListener;
 		listener.enabled = true;
 		toCamera.enabled = true;
-		/*if(toCamera.tag=="disabledCam"){
+		if(toCamera.tag=="disabledCam"){
 			this.gameObject.SendMessage ("disableDetector", SendMessageOptions.RequireReceiver);
 		}
 		else{
 			this.gameObject.SendMessage ("enableDetector", SendMessageOptions.RequireReceiver);
-		}*/
+		}
 		activeCam = toCamera;
 		
 		guiText = activeCam.gameObject.name;
