@@ -23,13 +23,16 @@ public class CameraManager : MonoBehaviour
 		
 		GUI.Box (rect, guiText);;
 		
-		Rect rec = new Rect (0, Screen.height - 50, myGuiWidth, 50);
+		GUI.color = Color.white;
+		Rect rec = new Rect (50, Screen.height - 70, 160, 40);
 		
 		if(activeCam.tag == "disabledCam"){
-			GUI.DrawTexture(rec, recGray, ScaleMode.ScaleToFit, true, 10.0f);	
+			GUI.DrawTexture(rec, recGray, ScaleMode.ScaleToFit, true, 0.0f);	
 		} else {
-			GUI.DrawTexture(rec, recRed, ScaleMode.ScaleToFit, true, 10.0f);
+			GUI.DrawTexture(rec, recRed, ScaleMode.ScaleToFit, true, 0.0f);
 		}
+		
+		GUI.color = Color.yellow;
 		// Security camera borders
 		int frameBorderLength = 50;
 		int screenEdgeOffset = 20;
