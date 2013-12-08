@@ -36,6 +36,7 @@ public class ManagerScript : MonoBehaviour
 		}
 		//reset save history
 		if (Input.GetKeyDown(KeyCode.R)){
+			PlayerPrefs.SetInt("unlockedLevel1", 0);
 			PlayerPrefs.SetInt("unlockedLevel2", 0);
 			PlayerPrefs.SetInt("unlockedLevel3", 0);
 			PlayerPrefs.SetInt("unlockedLevel4", 0);
