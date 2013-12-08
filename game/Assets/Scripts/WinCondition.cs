@@ -35,8 +35,8 @@ public class WinCondition : MonoBehaviour
 	
 	void Update ()
 	{	
-		//cheat to win if V is pressed
-		if (Input.GetKeyDown (KeyCode.V)) {
+		//cheat to win if HOME is pressed
+		if (Input.GetKeyDown (KeyCode.Home)) {
 			WinCondition.WinOrNot = true;
 			gameObject.renderer.enabled = false;
 			gameObject.collider.enabled = false;

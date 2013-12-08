@@ -31,7 +31,7 @@ public class ManagerScript : MonoBehaviour
 			KillPlayer ();
 		}
 		//go back to menu
-		if (Input.GetKeyDown(KeyCode.M)){
+		if (Input.GetKeyDown(KeyCode.Escape)){
 			Application.LoadLevel("menu");
 		}
 		//reset save history
