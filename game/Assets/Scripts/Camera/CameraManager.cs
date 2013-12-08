@@ -223,6 +223,12 @@ public class CameraManager : MonoBehaviour
 		for (int i = 0; i < cameraArray.Length; i++) {
 			cameras.Add (cameraArray [i]);
 		}
+
+		
+		//	Sort cameras into depth order starting from the lowest
+		cameras.Sort (delegate(Camera cam1, Camera cam2)	{
+			return cam1.depth.CompareTo (cam2.depth);
+		});
 	}
 
 	public void removeCamera (Camera cam)
