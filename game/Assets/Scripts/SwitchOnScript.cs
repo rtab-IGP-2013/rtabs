@@ -13,7 +13,9 @@ public class SwitchOnScript : MonoBehaviour {
 	
 	}
 	
-	void OnTriggerEnter(){
+	void OnTriggerEnter(Collider col){
+		if(col.gameObject.tag ==  "Player"){
 		this.renderer.material.mainTextureOffset = new Vector2(0,0);	
+		}
 	}
 }

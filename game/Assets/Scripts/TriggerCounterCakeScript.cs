@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
 public class TriggerCounterCakeScript: MonoBehaviour {
 	
 	public GameObject cameraToDisable;
@@ -14,7 +14,6 @@ public class TriggerCounterCakeScript: MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 	}
 	
 	void TriggerPressed(){
@@ -22,7 +21,17 @@ public class TriggerCounterCakeScript: MonoBehaviour {
 		Debug.Log (counter + "times hit");
 		if(counter >= SWITCH_COUNT){
 			Debug.Log("truning off camera");
+			List <Camera> cameras = new List<Camera> ();
+			Camera[] cameraArray = FindObjectsOfType (typeof(Camera)) as Camera[];
+			Debug.Log (cameraArray.Length +"kameraa");
+			GameObject manager = GameObject.FindGameObjectWithTag("Manager");
+			for (int i = 0; i < cameraArray.Length; i++) {
+				if(cameraArray[i].tag=="disabledCam"){	
+						 manager.gameObject.SendMessage ("removeCamera",cameraArray[i], SendMessageOptions.RequireReceiver);
+				}
+			}
 			cameraToDisable.tag = "disabledCam";
+			
 		}
 	}
 }
