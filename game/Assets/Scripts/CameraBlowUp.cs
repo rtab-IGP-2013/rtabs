@@ -24,7 +24,6 @@ public class CameraBlowUp : MonoBehaviour {
 			Debug.Log("Player hit Switch");
 			manager.SendMessage("TriggerPressed",SendMessageOptions.RequireReceiver);
 			gameObject.collider.enabled = false;
-			gameObject.renderer.enabled = false;
 			target.rigidbody.constraints=RigidbodyConstraints.None;
 			target.rigidbody.AddForce(new Vector3(0,1,0));
    			candle.intensity=3;
