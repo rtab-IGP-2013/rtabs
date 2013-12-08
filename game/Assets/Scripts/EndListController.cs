@@ -24,11 +24,11 @@ public class EndListController : MonoBehaviour
 		GUI.DrawTexture(new Rect(Screen.width * 0.05f,Screen.height * 0.1f, Screen.width * 0.35f, Screen.height * 0.20f),logo_RTABS);
 		
 		GUI.Label (new Rect (Screen.width / 2-100, Screen.height - scrollspeed, 400, 4000), list,myStyle);
-		if(scrollspeed <= 3990){
+		if(scrollspeed <= 4100){
 			scrollspeed = scrollspeed + (float)Screen.height * 0.001f;
 		}
 		
-		if(!switchToMenu && scrollspeed > 3990){
+		if(!switchToMenu && scrollspeed > 4100){
 			switchToMenu = !switchToMenu;
 			
 			

@@ -8,7 +8,7 @@ public class MenuScript : MonoBehaviour
 	private string LevelName;
 	void Start ()
 	{
-        PlayerPrefs.SetInt ("unlockedLevel1", 1);
+        PlayerPrefs.SetInt ("unlockedLevel0", 1);
 	}
 
 	void OnGUI ()
@@ -19,12 +19,7 @@ public class MenuScript : MonoBehaviour
 			if (GUILayout.Button ("Play!", GUILayout.Height (50))) {
 				isLevel = !isLevel;
 			}
-			if (GUILayout.Button ("Setting", GUILayout.Height (50))) {
 			
-			}
-			if (GUILayout.Button ("Help", GUILayout.Height (50))) {
-			
-			}
 			if (GUILayout.Button ("Rage quit", GUILayout.Height (50))) {
 				Application.Quit ();
 			}
@@ -36,11 +31,14 @@ public class MenuScript : MonoBehaviour
 		
 		GUILayout.FlexibleSpace ();
 		
-		for (int i = 1; i < 8; i++) {
+		for (int i = 0; i < 8; i++) {
 			
 			switch(i){
+			case 0:
+				LevelName = "Tutorial";
+				break;
 			case 1:
-				LevelName = "Level 1 - Tutorial";
+				LevelName = "Level 1 - Boxing Day";
 				break;
 			case 2:
 				LevelName = "Level 2 - Dropbox";
@@ -64,7 +62,7 @@ public class MenuScript : MonoBehaviour
 			
 			
 			
-			if (i == 1 || i == 3 || i == 5 || i == 7) {
+			if (i == 0 || i == 2 || i == 4 || i == 6) {
 				GUILayout.BeginHorizontal ();
 			}			
 			if (PlayerPrefs.GetInt ("unlockedLevel" + i, 0) == 1) {
@@ -72,7 +70,7 @@ public class MenuScript : MonoBehaviour
 					LoadLevel (i);
 				}
 			}
-			if (i == 2 || i == 4 || i == 6 || i == 7) {
+			if (i == 1 || i == 3 || i == 5 || i == 7) {
 				GUILayout.EndHorizontal ();
 			}
 		}
