@@ -9,6 +9,7 @@ public class EndListController : MonoBehaviour
 	private int i;
 	private float flagTime;
 	public GUIStyle myStyle;
+	public Texture2D logo_RTABS;
 	// Use this for initialization
 	void Start ()
 	{
@@ -20,6 +21,7 @@ public class EndListController : MonoBehaviour
 	
 	void OnGUI ()
 	{
+		GUI.DrawTexture(new Rect(Screen.width * 0.05f,Screen.height * 0.1f, Screen.width * 0.35f, Screen.height * 0.20f),logo_RTABS);
 		
 		GUI.Label (new Rect (Screen.width / 2-100, Screen.height - scrollspeed, 400, 4000), list,myStyle);
 		if(scrollspeed <= 3990){
