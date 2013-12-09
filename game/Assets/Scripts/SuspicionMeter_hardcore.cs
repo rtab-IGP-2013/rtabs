@@ -6,8 +6,6 @@ public class SuspicionMeter_hardcore : MonoBehaviour {
 	private int maxSuspicion = 100;
 	private int currentSuspicion = 0;
 	private float suspicionBarLength;
-	private int frameCounter = 0;
-	private int decaysSuspicion = 5; // every 5 frames
     private string text = "SUSPICIOUS";
 	
 	// Use this for initialization
@@ -21,11 +19,6 @@ public class SuspicionMeter_hardcore : MonoBehaviour {
 			currentSuspicion = 0;
 			this.gameObject.SendMessage ("KillPlayer", SendMessageOptions.RequireReceiver);
 		}
-		
-		/*if (frameCounter == 0) {
-			AdjustSuspicionBar(-1);
-		}
-		frameCounter = (frameCounter + 1) % decaysSuspicion;*/
 	}
 	
 	void OnGUI() {

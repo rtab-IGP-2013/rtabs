@@ -15,11 +15,21 @@ public class PlayerMovementController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-//		float player_x = Input.GetAxis("Mouse X");
-//		float player_y = Input.GetAxis("Mouse Y");
 		
-//		transform.position = new Vector3(transform.position.x + player_x, transform.position.y + player_y, 0);
+		//		Jumping
+		
+		if (Input.GetButtonDown("Jump"))	{
+			if(jumps_left > 0)	{
+				rigidbody.velocity = rigidbody.velocity + new Vector3 (0f, jumpspeed, 0f);
+				jumps_left--;
+			}
+		}
 	
+
+		
+	}
+
+	void FixedUpdate() {
 		if (Input.GetAxis ("Horizontal") < 0){
 			if(rigidbody.velocity.magnitude < maxspeed)
 				rigidbody.AddForce (new Vector3(0, 0, speed));
@@ -36,16 +46,6 @@ public class PlayerMovementController : MonoBehaviour {
 			if(rigidbody.velocity.magnitude < maxspeed)
 				rigidbody.AddForce (new Vector3(speed, 0, 0));
 		}
-		
-//		Jumping
-		
-		if (Input.GetButtonDown("Jump"))	{
-			if(jumps_left > 0)	{
-				rigidbody.velocity = rigidbody.velocity + new Vector3 (0f, jumpspeed, 0f);
-				jumps_left--;
-				}
-		}
-		
 	}
 
 //		When to allow the player to jump again

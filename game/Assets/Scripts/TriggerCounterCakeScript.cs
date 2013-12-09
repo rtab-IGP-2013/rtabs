@@ -21,7 +21,6 @@ public class TriggerCounterCakeScript: MonoBehaviour {
 		Debug.Log (counter + "times hit");
 		if(counter >= SWITCH_COUNT){
 			Debug.Log("truning off camera");
-			List <Camera> cameras = new List<Camera> ();
 			Camera[] cameraArray = FindObjectsOfType (typeof(Camera)) as Camera[];
 			Debug.Log (cameraArray.Length +"kameraa");
 			GameObject manager = GameObject.FindGameObjectWithTag("Manager");
